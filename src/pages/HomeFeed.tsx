@@ -47,7 +47,7 @@ function HomeFeed({
             <div
               className="absolute left-0 w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent pb-10"
               style={{
-                bottom: "calc(60px + env(safe-area-inset-bottom))",
+                bottom: "calc(120px + env(safe-area-inset-bottom))",
               }}
             >
               <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
