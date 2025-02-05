@@ -35,7 +35,7 @@ function SavedArticles({
             <button
               key={option}
               onClick={() => setFilter(option)}
-              className={`px-6 py-2 rounded-full ${
+              className={`px-6 py-2 rounded-full font-semibold tracking-wide ${
                 filter === option
                   ? "bg-neutral-100 text-black"
                   : "cursor-pointer transition-all duration-200 rounded-full text-base bg-[#333] hover:bg-[#222222] text-white"

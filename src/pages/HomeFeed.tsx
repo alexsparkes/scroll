@@ -23,7 +23,7 @@ function HomeFeed({
 }: HomeFeedProps) {
   return (
     <div
-      className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-20"
+      className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-[80px]" // Increased bottom padding
       onScroll={handleScroll}
     >
       {articles.map((article: Article, index: number) => {
@@ -96,7 +96,6 @@ function HomeFeed({
                       console.log(
                         "Native share not supported. Fallback to default sharing behavior."
                       );
-                      // Fallback behavior can be implemented here if needed.
                     }
                   }}
                 >
