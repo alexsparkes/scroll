@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomeFeed from "./pages/HomeFeed";
+import SavedArticles from "./pages/SavedArticles";
+import { ArticleProvider, useArticle } from "./context/ArticleContext";
+import BottomNav from "./components/BottomNavbar";
 
-function App() {
-  const [count, setCount] = useState(0)
+function HomeFeedContainer() {
+  const {
+    articles,
+    handleScroll,
+    expandedIndices,
+    toggleExpand,
+    extractThreshold,
+    savedArticles,
+    handleSaveArticle,
+  } = useArticle();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <HomeFeed
+      articles={articles}
+      handleScroll={handleScroll}
+      expandedIndices={expandedIndices}
+      toggleExpand={toggleExpand}
+      extractThreshold={extractThreshold}
+      savedArticles={savedArticles}
+      handleSaveArticle={handleSaveArticle}
+    />
+  );
 }
 
-export default App
+function SavedArticlesContainer() {
+  const { savedArticles, extractThreshold, handleSaveArticle } = useArticle();
+
+  return (
+    <SavedArticles
+      savedArticles={savedArticles}
+      extractThreshold={extractThreshold}
+      handleSaveArticle={handleSaveArticle}
+    />
+  );
+}
+
+function App() {
+  return (
+    <ArticleProvider>
+      <BrowserRouter>
+        <div className="relative min-h-screen">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="h-screen w-screen text-xl p-4 text-center text-white">
+                      Loading...
+                    </div>
+                  }
+                >
+                  <HomeFeedContainer />
+                </Suspense>
+              }
+            />
+            <Route path="/saved" element={<SavedArticlesContainer />} />
+          </Routes>
+
+          <BottomNav />
+        </div>
+      </BrowserRouter>
+    </ArticleProvider>
+  );
+}
+
+export default App;
