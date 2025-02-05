@@ -14,6 +14,7 @@ function HomeFeedContainer() {
     extractThreshold,
     savedArticles,
     handleSaveArticle,
+    handleToggleReadArticle,
   } = useArticle();
 
   return (
@@ -25,18 +26,25 @@ function HomeFeedContainer() {
       extractThreshold={extractThreshold}
       savedArticles={savedArticles}
       handleSaveArticle={handleSaveArticle}
+      handleToggleReadArticle={handleToggleReadArticle}
     />
   );
 }
 
 function SavedArticlesContainer() {
-  const { savedArticles, extractThreshold, handleSaveArticle } = useArticle();
+  const {
+    savedArticles,
+    extractThreshold,
+    handleSaveArticle,
+    handleToggleReadArticle,
+  } = useArticle();
 
   return (
     <SavedArticles
       savedArticles={savedArticles}
       extractThreshold={extractThreshold}
       handleSaveArticle={handleSaveArticle}
+      handleToggleReadArticle={handleToggleReadArticle}
     />
   );
 }

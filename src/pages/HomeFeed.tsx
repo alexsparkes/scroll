@@ -1,5 +1,10 @@
 import React from "react";
-import { FaShare, FaExternalLinkAlt, FaBookmark } from "react-icons/fa";
+import {
+  FaShare,
+  FaExternalLinkAlt,
+  FaBookmark,
+  FaCheckCircle,
+} from "react-icons/fa";
 import { Article } from "../hooks/useArticleFeed";
 
 interface HomeFeedProps {
@@ -8,8 +13,9 @@ interface HomeFeedProps {
   expandedIndices: { [key: number]: boolean };
   toggleExpand: (index: number) => void;
   extractThreshold: number;
-  savedArticles: Article[];
+  savedArticles: (Article & { read?: boolean })[];
   handleSaveArticle: (article: Article) => void;
+  handleToggleReadArticle: (article: Article) => void;
 }
 
 function HomeFeed({
@@ -20,6 +26,7 @@ function HomeFeed({
   extractThreshold,
   savedArticles,
   handleSaveArticle,
+  handleToggleReadArticle,
 }: HomeFeedProps) {
   return (
     <div
@@ -35,6 +42,8 @@ function HomeFeed({
         const isArticleSaved = savedArticles.some(
           (a) => a.title === article.title
         );
+        const isArticleRead =
+          savedArticles.find((a) => a.title === article.title)?.read ?? false;
         return (
           <div key={index} className="h-screen snap-center relative">
             {article.thumbnail && (
@@ -96,7 +105,6 @@ function HomeFeed({
                       console.log(
                         "Native share not supported. Fallback to default sharing behavior."
                       );
-                      // Fallback behavior can be implemented here if needed.
                     }
                   }}
                 >

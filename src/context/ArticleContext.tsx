@@ -7,8 +7,9 @@ type ArticleContextType = {
   expandedIndices: { [key: number]: boolean };
   toggleExpand: (index: number) => void;
   extractThreshold: number;
-  savedArticles: Article[];
+  savedArticles: (Article & { read?: boolean })[];
   handleSaveArticle: (article: Article) => void;
+  handleToggleReadArticle: (article: Article) => void;
 };
 
 const ArticleContext = createContext<ArticleContextType | undefined>(undefined);
@@ -23,7 +24,9 @@ export const ArticleProvider: React.FC<{ children: React.ReactNode }> = ({
     toggleExpand,
     extractThreshold,
   } = useArticleFeed();
-  const [savedArticles, setSavedArticles] = useState<Article[]>([]);
+  const [savedArticles, setSavedArticles] = useState<
+    (Article & { read?: boolean })[]
+  >([]);
 
   useEffect(() => {
     const saved = localStorage.getItem("savedArticles");
@@ -41,6 +44,16 @@ export const ArticleProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("savedArticles", JSON.stringify(updatedSaved));
   };
 
+  const handleToggleReadArticle = (article: Article) => {
+    setSavedArticles((prev) => {
+      const updated = prev.map((a) =>
+        a.title === article.title ? { ...a, read: !a.read } : a
+      );
+      localStorage.setItem("savedArticles", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   return (
     <ArticleContext.Provider
       value={{
@@ -51,6 +64,7 @@ export const ArticleProvider: React.FC<{ children: React.ReactNode }> = ({
         extractThreshold,
         savedArticles,
         handleSaveArticle,
+        handleToggleReadArticle,
       }}
     >
       {children}
