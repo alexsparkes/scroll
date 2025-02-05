@@ -79,7 +79,25 @@ function HomeFeed({
                   title="Share this article"
                   className="text-white p-3 rounded-full flex flex-col items-center gap-2"
                   onClick={() => {
-                    console.log("Article shared");
+                    if (navigator.share) {
+                      navigator
+                        .share({
+                          title: article.title,
+                          text: "Check out this article!",
+                          url:
+                            "https://en.wikipedia.org/wiki/" +
+                            encodeURIComponent(article.title),
+                        })
+                        .then(() => console.log("Successful share"))
+                        .catch((error) =>
+                          console.error("Error sharing", error)
+                        );
+                    } else {
+                      console.log(
+                        "Native share not supported. Fallback to default sharing behavior."
+                      );
+                      // Fallback behavior can be implemented here if needed.
+                    }
                   }}
                 >
                   <FaShare size={24} />
