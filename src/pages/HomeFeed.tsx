@@ -23,7 +23,8 @@ function HomeFeed({
 }: HomeFeedProps) {
   return (
     <div
-      className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-[80px]" // Increased bottom padding
+      className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory"
+      style={{ paddingBottom: "calc(80px + env(safe-area-inset-bottom))" }}
       onScroll={handleScroll}
     >
       {articles.map((article: Article, index: number) => {
