@@ -14,7 +14,6 @@ function HomeFeedContainer() {
     extractThreshold,
     savedArticles,
     handleSaveArticle,
-    handleToggleReadArticle,
   } = useArticle();
 
   return (
@@ -26,7 +25,6 @@ function HomeFeedContainer() {
       extractThreshold={extractThreshold}
       savedArticles={savedArticles}
       handleSaveArticle={handleSaveArticle}
-      handleToggleReadArticle={handleToggleReadArticle}
     />
   );
 }
