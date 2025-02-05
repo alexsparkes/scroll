@@ -101,7 +101,7 @@ function HomeFeed({
                   }}
                 >
                   <FaShare size={24} />
-                  <span>Share</span>
+                  <span className="text-xs text-white">Share</span>
                 </button>
                 <button
                   type="button"
@@ -116,7 +116,7 @@ function HomeFeed({
                   }
                 >
                   <FaExternalLinkAlt size={24} />
-                  <span>Read</span>
+                  <span className="text-xs text-white">Read</span>
                 </button>
               </div>
             </div>
