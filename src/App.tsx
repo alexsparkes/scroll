@@ -4,6 +4,7 @@ import HomeFeed from "./pages/HomeFeed";
 import SavedArticles from "./pages/SavedArticles";
 import { ArticleProvider, useArticle } from "./context/ArticleContext";
 import BottomNav from "./components/BottomNavbar";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function HomeFeedContainer() {
   const {
@@ -56,20 +57,28 @@ function App() {
             <Route
               path="/"
               element={
-                <Suspense
-                  fallback={
-                    <div className="h-screen w-screen text-xl p-4 text-center text-white">
-                      Loading...
-                    </div>
-                  }
-                >
-                  <HomeFeedContainer />
-                </Suspense>
+                <ErrorBoundary>
+                  <Suspense
+                    fallback={
+                      <div className="h-screen w-screen text-xl p-4 text-center text-white">
+                        Loading...
+                      </div>
+                    }
+                  >
+                    <HomeFeedContainer />
+                  </Suspense>
+                </ErrorBoundary>
               }
             />
-            <Route path="/saved" element={<SavedArticlesContainer />} />
+            <Route
+              path="/saved"
+              element={
+                <ErrorBoundary>
+                  <SavedArticlesContainer />
+                </ErrorBoundary>
+              }
+            />
           </Routes>
-
           <BottomNav />
         </div>
       </BrowserRouter>
