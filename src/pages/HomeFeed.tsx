@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Article } from "../hooks/useArticleFeed";
@@ -26,6 +26,31 @@ function HomeFeed({
   isLoading,
 }: HomeFeedProps) {
   const parentRef = React.useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
+  const currentArticleIndex = useRef<number>(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchEndX - touchStartX.current;
+
+    // If swipe distance is less than -100px, consider it a left swipe
+    if (swipeDistance < -100) {
+      const article = articles[currentArticleIndex.current];
+      if (article) {
+        // Navigate to Wikipedia article in the same window
+        window.location.href =
+          "https://en.wikipedia.org/wiki/" + encodeURIComponent(article.title);
+      }
+    }
+
+    touchStartX.current = null;
+  };
 
   const virtualizer = useVirtualizer({
     count: articles.length,
@@ -33,6 +58,15 @@ function HomeFeed({
     estimateSize: useCallback(() => window.innerHeight, []),
     overscan: 2,
   });
+
+  // Track current article index based on scroll position
+  const handleScrollWithTracking = (e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.target as HTMLDivElement;
+    currentArticleIndex.current = Math.floor(
+      element.scrollTop / window.innerHeight
+    );
+    handleScroll(e);
+  };
 
   if (isLoading || articles.length === 0) {
     return (
@@ -72,7 +106,9 @@ function HomeFeed({
     <div
       ref={parentRef}
       className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-[10vh]"
-      onScroll={handleScroll}
+      onScroll={handleScrollWithTracking}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       <div
         style={{

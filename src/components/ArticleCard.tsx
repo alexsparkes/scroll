@@ -48,10 +48,9 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
     };
 
     const handleRead = () => {
-      window.open(
-        "https://en.wikipedia.org/wiki/" + encodeURIComponent(article.title),
-        "_blank"
-      );
+      // Open in same window instead of new tab
+      window.location.href =
+        "https://en.wikipedia.org/wiki/" + encodeURIComponent(article.title);
     };
 
     return (
