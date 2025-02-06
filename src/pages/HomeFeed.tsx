@@ -1,5 +1,10 @@
 import React from "react";
-import { FaShare, FaExternalLinkAlt, FaBookmark } from "react-icons/fa";
+import {
+  FaShare,
+  FaExternalLinkAlt,
+  FaBookmark,
+  FaSpinner,
+} from "react-icons/fa";
 import { Article } from "../hooks/useArticleFeed";
 
 interface HomeFeedProps {
@@ -21,9 +26,18 @@ function HomeFeed({
   savedArticles,
   handleSaveArticle,
 }: HomeFeedProps) {
+  // Show spinner if there are no articles loaded yet
+  if (articles.length === 0) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center bg-black">
+        <FaSpinner className="animate-spin text-white" size={48} />
+      </div>
+    );
+  }
+
   return (
     <div
-      className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory"
+      className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-[10vh]"
       onScroll={handleScroll}
     >
       {articles.map((article: Article, index: number) => {
