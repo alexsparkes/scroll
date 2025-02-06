@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export type Article = {
   title: string;
@@ -10,66 +10,108 @@ export type Article = {
   };
 };
 
-export default function useArticleFeed(
-  initialCount = 5,
-  bufferCount = 3,
-  extractThreshold = 150
-) {
+const PREFETCH_THRESHOLD = 5; // Start prefetching when 5 items remain
+const BATCH_SIZE = 10;
+
+export default function useArticleFeed() {
   const [articles, setArticles] = useState<Article[]>([]);
-  const [buffer, setBuffer] = useState<Article[]>([]);
   const [expandedIndices, setExpandedIndices] = useState<{
     [key: number]: boolean;
   }>({});
+  const [isFetching, setIsFetching] = useState(false);
+  const prefetchedArticles = useRef<Article[]>([]);
+  const extractThreshold = 150;
 
-  const fetchRandomArticle = useCallback(async (): Promise<Article> => {
-    const response = await fetch(
-      "https://en.wikipedia.org/api/rest_v1/page/random/summary"
-    );
-    const data = await response.json();
-    return data;
+  const fetchArticle = useCallback(async (): Promise<Article | null> => {
+    try {
+      const response = await fetch(
+        "https://en.wikipedia.org/api/rest_v1/page/random/summary"
+      );
+      if (!response.ok) throw new Error("Failed to fetch");
+      const data = await response.json();
+      return {
+        title: data.title,
+        extract: data.extract,
+        thumbnail: data.thumbnail,
+      };
+    } catch (error) {
+      console.error("Error fetching article:", error);
+      return null;
+    }
   }, []);
 
-  const prefetchArticles = useCallback(
-    async (count: number): Promise<Article[]> => {
-      const promises = [];
-      for (let i = 0; i < count; i++) {
-        promises.push(fetchRandomArticle());
+  const prefetchArticles = useCallback(async () => {
+    if (isFetching) return;
+
+    setIsFetching(true);
+    try {
+      const newArticles = await Promise.all(
+        Array(BATCH_SIZE)
+          .fill(null)
+          .map(() => fetchArticle())
+      );
+
+      const validArticles = newArticles.filter(
+        (article): article is Article => article !== null
+      );
+      prefetchedArticles.current = [
+        ...prefetchedArticles.current,
+        ...validArticles,
+      ];
+
+      // Immediately append articles if we have none
+      if (articles.length === 0 && validArticles.length > 0) {
+        setArticles(validArticles);
       }
-      return await Promise.all(promises);
+    } finally {
+      setIsFetching(false);
+    }
+  }, [fetchArticle, isFetching, articles.length]);
+
+  const appendArticles = useCallback(() => {
+    if (prefetchedArticles.current.length === 0) {
+      prefetchArticles();
+      return;
+    }
+
+    setArticles((prev) => [...prev, ...prefetchedArticles.current]);
+    prefetchedArticles.current = [];
+  }, [prefetchArticles]);
+
+  // Initialize on mount
+  useEffect(() => {
+    if (articles.length === 0 && !isFetching) {
+      prefetchArticles();
+    }
+  }, []); // Empty dependency array for mount only
+
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLDivElement;
+      const scrollPosition = target.scrollTop + target.clientHeight;
+      const scrollThreshold =
+        target.scrollHeight - target.clientHeight * PREFETCH_THRESHOLD;
+
+      if (scrollPosition > scrollThreshold) {
+        appendArticles();
+      }
     },
-    [fetchRandomArticle]
+    [appendArticles]
   );
 
-  // Load initial articles and buffer
+  // Keep prefetching articles when the prefetch cache is low
   useEffect(() => {
-    const init = async () => {
-      const initialArticles = await prefetchArticles(initialCount);
-      setArticles(initialArticles);
-      const nextArticles = await prefetchArticles(bufferCount);
-      setBuffer(nextArticles);
-    };
-    init();
-  }, [prefetchArticles, initialCount, bufferCount]);
-
-  // When scroll reaches bottom, append buffered articles and prefetch new ones
-  const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
-    const target = e.currentTarget;
-    if (
-      Math.ceil(target.scrollTop) + target.clientHeight >=
-      target.scrollHeight
-    ) {
-      setArticles((prev) => [...prev, ...buffer]);
-      const newBuffer = await prefetchArticles(bufferCount);
-      setBuffer(newBuffer);
+    if (prefetchedArticles.current.length < BATCH_SIZE && !isFetching) {
+      prefetchArticles();
     }
-  };
+  }, [prefetchArticles, isFetching]);
 
-  const toggleExpand = (index: number) => {
+  const toggleExpand = useCallback((index: number) => {
     setExpandedIndices((prev) => ({
       ...prev,
       [index]: !prev[index],
     }));
-  };
+  }, []);
 
   return {
     articles,
@@ -77,5 +119,6 @@ export default function useArticleFeed(
     expandedIndices,
     toggleExpand,
     extractThreshold,
+    isLoading: isFetching && articles.length === 0,
   };
 }
