@@ -10,6 +10,8 @@ export interface ArticleCardProps {
   toggleExpand: (index: number) => void;
   isArticleSaved: boolean;
   handleSaveArticle: (article: Article) => void;
+  swipeOffset: number;
+  isNavigating: boolean;
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = React.memo(
@@ -21,6 +23,8 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
     toggleExpand,
     isArticleSaved,
     handleSaveArticle,
+    swipeOffset,
+    isNavigating,
   }) => {
     const isShort = article.extract.length <= extractThreshold;
     const displayedExtract = isExpanded
@@ -54,15 +58,37 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
     };
 
     return (
-      <div key={index} className="h-screen snap-center relative">
+      <div
+        key={index}
+        className="h-screen snap-center relative overflow-hidden"
+      >
         {article.thumbnail && (
-          <img
-            className="h-screen w-screen object-cover"
-            src={article.thumbnail.source}
-            alt={article.title}
-          />
+          <div
+            className="relative w-full h-full transition-transform duration-300 ease-out"
+            style={{
+              transform: `translateX(${swipeOffset}px)`,
+            }}
+          >
+            <img
+              className="h-screen w-screen object-cover"
+              src={article.thumbnail.source}
+              alt={article.title}
+            />
+            {isNavigating && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 transition-opacity duration-300">
+                <p className="text-white text-xl font-bold">
+                  Taking you to Wikipedia...
+                </p>
+              </div>
+            )}
+          </div>
         )}
-        <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
+        <div
+          className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent transition-transform duration-300 ease-out"
+          style={{
+            transform: `translateX(${swipeOffset}px)`,
+          }}
+        >
           <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
             <h2 className="text-xl font-bold mb-2">{article.title}</h2>
             <p className="text mx-auto mb-4">{displayedExtract}</p>
@@ -124,7 +150,9 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
   (prevProps, nextProps) => {
     return (
       prevProps.isExpanded === nextProps.isExpanded &&
-      prevProps.isArticleSaved === nextProps.isArticleSaved
+      prevProps.isArticleSaved === nextProps.isArticleSaved &&
+      prevProps.swipeOffset === nextProps.swipeOffset &&
+      prevProps.isNavigating === nextProps.isNavigating
     );
   }
 );

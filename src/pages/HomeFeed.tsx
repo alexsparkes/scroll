@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Article } from "../hooks/useArticleFeed";
@@ -28,9 +28,21 @@ function HomeFeed({
   const parentRef = React.useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const currentArticleIndex = useRef<number>(0);
+  const [swipeOffset, setSwipeOffset] = useState(0);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - touchStartX.current;
+    if (diff < 0) {
+      // Only allow left swipe
+      setSwipeOffset(Math.max(diff, -200));
+    }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -39,16 +51,18 @@ function HomeFeed({
     const touchEndX = e.changedTouches[0].clientX;
     const swipeDistance = touchEndX - touchStartX.current;
 
-    // If swipe distance is less than -100px, consider it a left swipe
     if (swipeDistance < -100) {
+      setIsNavigating(true);
       const article = articles[currentArticleIndex.current];
       if (article) {
-        // Navigate to Wikipedia article in the same window
-        window.location.href =
-          "https://en.wikipedia.org/wiki/" + encodeURIComponent(article.title);
+        setTimeout(() => {
+          window.location.href =
+            "https://en.wikipedia.org/wiki/" +
+            encodeURIComponent(article.title);
+        }, 500);
       }
     }
-
+    setSwipeOffset(0);
     touchStartX.current = null;
   };
 
@@ -59,7 +73,6 @@ function HomeFeed({
     overscan: 2,
   });
 
-  // Track current article index based on scroll position
   const handleScrollWithTracking = (e: React.UIEvent<HTMLDivElement>) => {
     const element = e.target as HTMLDivElement;
     currentArticleIndex.current = Math.floor(
@@ -108,6 +121,7 @@ function HomeFeed({
       className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-[10vh]"
       onScroll={handleScrollWithTracking}
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       <div
@@ -125,6 +139,7 @@ function HomeFeed({
           const isArticleSaved = savedArticles.some(
             (a) => a.title === article.title
           );
+          const isCurrent = currentArticleIndex.current === virtualItem.index;
 
           return (
             <div
@@ -146,6 +161,8 @@ function HomeFeed({
                 toggleExpand={toggleExpand}
                 isArticleSaved={isArticleSaved}
                 handleSaveArticle={handleSaveArticle}
+                swipeOffset={isCurrent ? swipeOffset : 0}
+                isNavigating={isCurrent ? isNavigating : false}
               />
             </div>
           );
