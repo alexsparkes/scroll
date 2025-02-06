@@ -58,7 +58,7 @@ function HomeFeed({
                 alt={article.title}
               />
             )}
-            <div className="absolute left-0 bottom-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent pb-10">
+            <div className="absolute left-0 bottom-[300px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent pb-10">
               <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
                 <h2 className="text-xl font-bold mb-2">{article.title}</h2>
                 <p className="text mx-auto mb-4">{displayedExtract}</p>
