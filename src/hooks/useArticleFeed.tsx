@@ -12,6 +12,8 @@ export type Article = {
 
 const PREFETCH_THRESHOLD = 5; // Start prefetching when 5 items remain
 const BATCH_SIZE = 10;
+const FETCH_TIMEOUT = 3000; // 3 seconds
+const MAX_RETRIES = 3;
 
 export default function useArticleFeed() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -22,23 +24,44 @@ export default function useArticleFeed() {
   const prefetchedArticles = useRef<Article[]>([]);
   const extractThreshold = 150;
 
-  const fetchArticle = useCallback(async (): Promise<Article | null> => {
+  const fetchWithTimeout = useCallback(async (url: string, timeout: number) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
     try {
-      const response = await fetch(
-        "https://en.wikipedia.org/api/rest_v1/page/random/summary"
-      );
-      if (!response.ok) throw new Error("Failed to fetch");
-      const data = await response.json();
-      return {
-        title: data.title,
-        extract: data.extract,
-        thumbnail: data.thumbnail,
-      };
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      return response;
     } catch (error) {
-      console.error("Error fetching article:", error);
-      return null;
+      clearTimeout(timeoutId);
+      throw error;
     }
   }, []);
+
+  const fetchArticle = useCallback(
+    async (retries = MAX_RETRIES): Promise<Article | null> => {
+      try {
+        const response = await fetchWithTimeout(
+          "https://en.wikipedia.org/api/rest_v1/page/random/summary",
+          FETCH_TIMEOUT
+        );
+        if (!response.ok) throw new Error("Failed to fetch");
+        const data = await response.json();
+        return {
+          title: data.title,
+          extract: data.extract,
+          thumbnail: data.thumbnail,
+        };
+      } catch (error) {
+        if (retries > 0) {
+          return fetchArticle(retries - 1);
+        }
+        console.error("Error fetching article:", error);
+        return null;
+      }
+    },
+    [fetchWithTimeout]
+  );
 
   const prefetchArticles = useCallback(async () => {
     if (isFetching) return;
@@ -68,6 +91,23 @@ export default function useArticleFeed() {
     }
   }, [fetchArticle, isFetching, articles.length]);
 
+  const fetchInitialArticle = useCallback(async () => {
+    setIsFetching(true);
+    try {
+      // Fetch first article and start prefetching in parallel
+      const [firstArticle] = await Promise.all([
+        fetchArticle(),
+        prefetchArticles(),
+      ]);
+
+      if (firstArticle) {
+        setArticles([firstArticle]);
+      }
+    } finally {
+      setIsFetching(false);
+    }
+  }, [fetchArticle, prefetchArticles]);
+
   const appendArticles = useCallback(() => {
     if (prefetchedArticles.current.length === 0) {
       prefetchArticles();
@@ -78,10 +118,10 @@ export default function useArticleFeed() {
     prefetchedArticles.current = [];
   }, [prefetchArticles]);
 
-  // Initialize on mount
+  // Initialize on mount with optimized first load
   useEffect(() => {
     if (articles.length === 0 && !isFetching) {
-      prefetchArticles();
+      fetchInitialArticle();
     }
   }, []); // Empty dependency array for mount only
 

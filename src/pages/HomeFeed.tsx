@@ -36,8 +36,34 @@ function HomeFeed({
 
   if (isLoading || articles.length === 0) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-black">
-        <FaSpinner className="animate-spin text-white" size={48} />
+      <div className="h-screen w-screen bg-black">
+        <div className="h-screen relative animate-pulse">
+          <div className="absolute inset-0 bg-neutral-900" />
+          <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
+            <div className="flex-grow p-4 flex flex-col justify-end">
+              <div className="h-6 w-2/3 bg-gray-700 rounded mb-4" />
+              <div className="flex flex-col gap-2">
+                <div className="h-4 bg-gray-700 rounded w-full" />
+                <div className="h-4 bg-gray-700 rounded w-5/6" />
+                <div className="h-4 bg-gray-700 rounded w-4/6" />
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-end space-y-4 p-4">
+              <div className="flex flex-col gap-2 items-center">
+                <div className="h-12 w-12 bg-gray-700 rounded-full" />
+                <div className="h-4 bg-gray-700 rounded w-5/6" />
+              </div>
+              <div className="flex flex-col gap-2 items-center">
+                <div className="h-12 w-12 bg-gray-700 rounded-full" />
+                <div className="h-4 bg-gray-700 rounded w-5/6" />
+              </div>
+              <div className="flex flex-col gap-2 items-center">
+                <div className="h-12 w-12 bg-gray-700 rounded-full" />
+                <div className="h-4 bg-gray-700 rounded w-5/6" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
