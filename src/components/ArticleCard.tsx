@@ -54,7 +54,10 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
     };
 
     return (
-      <div key={index} className="h-screen snap-center relative">
+      <div
+        key={index}
+        className="h-screen snap-center relative lg:max-w-2xl lg:mx-auto"
+      >
         {article.thumbnail && (
           <img
             className="h-screen w-screen object-cover"
@@ -65,7 +68,7 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
         <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
           <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
             <h2 className="text-xl font-bold mb-2">{article.title}</h2>
-            <p className="text mx-auto mb-4">{displayedExtract}</p>
+            <p className="text mb-4">{displayedExtract}</p>
             {!isShort && (
               <button
                 type="button"

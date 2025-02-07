@@ -27,8 +27,11 @@ function SavedArticles({
   });
 
   return (
-    <div className="h-screen overflow-y-scroll pb-20" onScroll={handleScroll}>
-      <div className="flex justify-between items-center p-4 flex-col items-start gap-4">
+    <div
+      className="h-screen overflow-y-scroll pb-20 lg:max-w-2xl lg:mx-auto"
+      onScroll={handleScroll}
+    >
+      <div className="flex justify-between items-start p-4 flex-col gap-4">
         <h1 className="text-2xl font-bold text-white">Saved Articles</h1>
         <div className="flex space-x-2">
           {(["all", "unread", "read"] as const).map((option) => (
