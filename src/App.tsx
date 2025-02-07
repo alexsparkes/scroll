@@ -5,6 +5,8 @@ import SavedArticles from "./pages/SavedArticles";
 import { ArticleProvider, useArticle } from "./context/ArticleContext";
 import BottomNav from "./components/BottomNavbar";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { TopicProvider } from "./context/TopicContext";
+import Discover from "./pages/Discover";
 
 function HomeFeedContainer() {
   const {
@@ -51,37 +53,47 @@ function SavedArticlesContainer() {
 function App() {
   return (
     <ArticleProvider>
-      <BrowserRouter>
-        <div className="relative min-h-screen">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <ErrorBoundary>
-                  <Suspense
-                    fallback={
-                      <div className="h-screen w-screen text-xl p-4 text-center text-white">
-                        Loading...
-                      </div>
-                    }
-                  >
-                    <HomeFeedContainer />
-                  </Suspense>
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="/saved"
-              element={
-                <ErrorBoundary>
-                  <SavedArticlesContainer />
-                </ErrorBoundary>
-              }
-            />
-          </Routes>
-          <BottomNav />
-        </div>
-      </BrowserRouter>
+      <TopicProvider>
+        <BrowserRouter>
+          <div className="relative min-h-screen">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <ErrorBoundary>
+                    <Suspense
+                      fallback={
+                        <div className="h-screen w-screen text-xl p-4 text-center text-white">
+                          Loading...
+                        </div>
+                      }
+                    >
+                      <HomeFeedContainer />
+                    </Suspense>
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/discover"
+                element={
+                  <ErrorBoundary>
+                    <Discover />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/saved"
+                element={
+                  <ErrorBoundary>
+                    <SavedArticlesContainer />
+                  </ErrorBoundary>
+                }
+              />
+            </Routes>
+            <BottomNav />
+          </div>
+        </BrowserRouter>
+      </TopicProvider>
     </ArticleProvider>
   );
 }

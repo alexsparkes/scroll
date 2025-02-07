@@ -1,4 +1,4 @@
-import { FaHome, FaBookmark } from "react-icons/fa";
+import { FaHome, FaBookmark, FaCompass } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 export default function BottomNav() {
@@ -17,6 +17,19 @@ export default function BottomNav() {
             <FaHome size={22} />
           </div>
           <span className="text-xs mt-1">Home</span>
+        </NavLink>
+        <NavLink
+          to="/discover"
+          className={({ isActive }) =>
+            `group flex flex-col items-center transition-colors ${
+              isActive ? "text-white" : "text-neutral-400"
+            }`
+          }
+        >
+          <div className="group-active:scale-90 group-active:opacity-70">
+            <FaCompass size={22} />
+          </div>
+          <span className="text-xs mt-1">Discover</span>
         </NavLink>
         <NavLink
           to="/saved"
