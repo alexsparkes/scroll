@@ -70,7 +70,7 @@ function HomeFeed({
 
   if (isLoading || articles.length === 0) {
     return (
-      <div className="h-screen w-screen bg-black pb-[175px]">
+      <div className="h-screen max-w-2xl bg-black pb-[175px] mx-auto">
         <div className="h-screen relative animate-pulse">
           <div className="absolute inset-0 bg-neutral-900" />
           <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">

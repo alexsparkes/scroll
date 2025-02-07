@@ -7,6 +7,8 @@ import BottomNav from "./components/BottomNavbar";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { TopicProvider } from "./context/TopicContext";
 import Discover from "./pages/Discover";
+import More from "./pages/More";
+import Search from "./pages/Search";
 
 function HomeFeedContainer() {
   const {
@@ -86,6 +88,22 @@ function App() {
                 element={
                   <ErrorBoundary>
                     <SavedArticlesContainer />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/more"
+                element={
+                  <ErrorBoundary>
+                    <More />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/search"
+                element={
+                  <ErrorBoundary>
+                    <Search />
                   </ErrorBoundary>
                 }
               />
