@@ -11,7 +11,7 @@ import { FaWikipediaW } from "react-icons/fa";
 import { useMainPageContent } from "../hooks/useMainPageContent";
 
 export default function Discover() {
-  const { featuredArticle, loading, error } = useMainPageContent();
+  const { featuredArticle, loading } = useMainPageContent();
   const [isExpanded, setIsExpanded] = useState(false);
   const extractThreshold = 150;
 
@@ -66,13 +66,22 @@ export default function Discover() {
         {/* Featured Article Section */}
         <section className="mb-8">
           {loading ? (
-            <div className="animate-pulse bg-neutral-800 h-40 rounded-lg" />
-          ) : error ? (
-            <div className="text-red-500">{error}</div>
+            <div className="animate-pulse">
+              <div className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-transparent shadow-md">
+                <div className="w-full h-48 bg-neutral-700 rounded-t-xl mb-4"></div>
+                <div className="p-4">
+                  <div className="h-8 bg-neutral-700 rounded w-1/2 mb-2"></div>
+                  <div className="h-4 bg-neutral-700 rounded w-full mb-1"></div>
+                  <div className="h-4 bg-neutral-700 rounded w-full mb-1"></div>
+                  <div className="h-4 bg-neutral-700 rounded w-3/4 mb-1"></div>
+                  <div className="h-6 bg-neutral-700 rounded mt-2 w-20"></div>
+                </div>
+              </div>
+            </div>
           ) : (
             <div
               className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md 
-                      hover:shadow-lg transition transform hover:scale-105 cursor-pointer"
+                hover:shadow-lg transition transform hover:scale-105 cursor-pointer"
             >
               <div className="absolute top-3 right-3">
                 <div className="rounded-lg px-5 py-2 bg-neutral-900/70 backdrop-blur-lg text-white text-xs font-bold flex flex-row gap-2 items-center">
