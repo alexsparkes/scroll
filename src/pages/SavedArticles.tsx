@@ -29,7 +29,7 @@ function SavedArticles({
 
   return (
     <div
-      className="h-screen overflow-y-scroll pb-20 lg:max-w-2xl lg:mx-auto"
+      className="h-screen overflow-y-scroll pb-20 lg:max-w-2xl lg:mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent"
       onScroll={handleScroll}
     >
       <div className="flex justify-between items-start p-4 flex-col gap-4 ">
@@ -41,10 +41,11 @@ function SavedArticles({
             <button
               key={option}
               onClick={() => setFilter(option)}
-              className={`px-6 py-2 rounded-full font-semibold tracking-wide ${
+              type="button"
+              className={`px-6 py-2 rounded-full font-semibold tracking-wide text-sm transition-all duration-200 ${
                 filter === option
-                  ? "bg-neutral-100 text-black"
-                  : "cursor-pointer transition-all duration-200 rounded-full text-base bg-[#333] hover:bg-[#222222] text-white"
+                  ? "bg-[#341f97] text-white border border-white/30 backdrop-blur-lg"
+                  : "bg-black/30 text-gray-300 border border-white/20 backdrop-blur-sm"
               }`}
             >
               {option[0].toUpperCase() + option.slice(1)}

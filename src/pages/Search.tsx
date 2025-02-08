@@ -2,8 +2,10 @@ import { FaSearch } from "react-icons/fa";
 
 export default function Search() {
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-white">Search</h1>
+    <div className="p-4 max-w-md mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
+      <h1 className="text-5xl font-bold mb-6 text-white font-serif pt-10">
+        Search
+      </h1>
       <form className="relative">
         <input
           type="text"
