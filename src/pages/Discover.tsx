@@ -6,7 +6,6 @@ import {
   LuPaintbrush,
   LuHistory,
   LuAtom,
-  LuStar,
 } from "react-icons/lu";
 import { FaWikipediaW } from "react-icons/fa";
 import { useMainPageContent } from "../hooks/useMainPageContent";
