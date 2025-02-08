@@ -4,8 +4,11 @@ export interface SearchResult {
   pageid: number;
   title: string;
   snippet: string;
+  description?: string;
   thumbnail?: {
     source: string;
+    width: number;
+    height: number;
   };
 }
 
@@ -25,11 +28,22 @@ export function useSearch(query: string) {
     const debounceHandler = setTimeout(() => {
       setSearchLoading(true);
       setSearchError("");
-      // Modified URL to include extracts for snippets
+      
       fetch(
-        `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(
-          query
-        )}&gsrlimit=10&prop=pageimages|extracts&exintro=1&explaintext=1&format=json&pithumbsize=200&origin=*`
+        `https://en.wikipedia.org/w/api.php?` +
+        `action=query&` +
+        `generator=search&` +
+        `gsrsearch=${encodeURIComponent(query)}&` +
+        `gsrlimit=10&` +
+        `prop=pageimages|description|extracts&` +
+        `piprop=thumbnail&` +
+        `pithumbsize=200&` +
+        `pilimit=10&` +
+        `exintro=1&` +
+        `explaintext=1&` +
+        `exlimit=10&` +
+        `format=json&` +
+        `origin=*`
       )
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch");
@@ -37,14 +51,27 @@ export function useSearch(query: string) {
         })
         .then((data) => {
           if (data.query?.pages) {
-            const pagesArray = (Object.values(data.query.pages) as (SearchResult & { extract: string })[]).map((page) => {
-              const typedPage = page as SearchResult & { extract: string };
-              return {
-                ...typedPage,
-                snippet: typedPage.extract || "",
+            const pagesArray = Object.values(data.query.pages) as Array<{
+              pageid: number;
+              title: string;
+              extract: string;
+              description?: string;
+              thumbnail?: {
+                source: string;
+                width: number;
+                height: number;
               };
-            });
-            setSearchResults(pagesArray);
+            }>;
+
+            const results = pagesArray.map((page) => ({
+              pageid: page.pageid,
+              title: page.title,
+              snippet: page.extract || "",
+              description: page.description,
+              thumbnail: page.thumbnail
+            }));
+
+            setSearchResults(results);
           } else {
             setSearchResults([]);
           }
