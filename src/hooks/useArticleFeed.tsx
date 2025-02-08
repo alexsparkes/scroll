@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 export type Article = {
   title: string;
   extract: string;
+  content?: string;
   thumbnail?: {
     source: string;
     width: number;
@@ -41,16 +42,28 @@ export default function useArticleFeed() {
   const fetchArticle = useCallback(
     async (retries = MAX_RETRIES): Promise<Article | null> => {
       try {
-        const response = await fetchWithTimeout(
+        // First get the summary
+        const summaryResponse = await fetchWithTimeout(
           "https://en.wikipedia.org/api/rest_v1/page/random/summary",
           FETCH_TIMEOUT
         );
-        if (!response.ok) throw new Error("Failed to fetch");
-        const data = await response.json();
+        if (!summaryResponse.ok) throw new Error("Failed to fetch summary");
+        const summaryData = await summaryResponse.json();
+
+        // Then get the full content
+        const titleForUrl = encodeURIComponent(summaryData.title);
+        const contentResponse = await fetchWithTimeout(
+          `https://en.wikipedia.org/api/rest_v1/page/html/${titleForUrl}`,
+          FETCH_TIMEOUT
+        );
+        if (!contentResponse.ok) throw new Error("Failed to fetch content");
+        const contentText = await contentResponse.text();
+
         return {
-          title: data.title,
-          extract: data.extract,
-          thumbnail: data.thumbnail,
+          title: summaryData.title,
+          extract: summaryData.extract,
+          content: contentText,
+          thumbnail: summaryData.thumbnail,
         };
       } catch (error) {
         if (retries > 0) {

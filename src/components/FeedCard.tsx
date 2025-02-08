@@ -27,6 +27,26 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
       ? article.extract
       : article.extract.slice(0, extractThreshold) + "...";
 
+    // Calculate reading time
+    const calculateReadingTime = (text: string) => {
+      const wordsPerMinute = 200;
+      // Strip HTML tags if present
+      const strippedText = text.replace(/<[^>]*>/g, "");
+      const wordCount = strippedText
+        .trim()
+        .split(/\s+/)
+        .filter((word) => word.length > 0).length;
+
+      const minutes = wordCount / wordsPerMinute;
+      // Round up to nearest minute, but keep minimum of 0.5
+      return minutes < 0.5 ? 0.5 : Math.ceil(minutes);
+    };
+
+    // Use article.content for reading time if available, fallback to extract
+    const readingTime = calculateReadingTime(
+      article.content || article.extract
+    );
+
     const handleShare = () => {
       const shareData = {
         title: article.title,
@@ -67,6 +87,9 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
         )}
         <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
           <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
+            <span className="px-2 py-1 bg-neutral-800/20 text-white border border-white/30 backdrop-blur-lg rounded-full text-xs font-semibold mb-2">
+              {readingTime === 0.5 ? "30 sec" : `${readingTime} min`} read
+            </span>
             <h2 className="text-3xl font-semibold mb-2 font-serif">
               {article.title}
             </h2>
