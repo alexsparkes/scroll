@@ -44,25 +44,40 @@ export default function Search({
     return savedArticles.some((saved) => saved.title === title);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Dismiss keyboard by removing focus from input
+    (document.activeElement as HTMLElement)?.blur();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      (e.target as HTMLElement).blur();
+    }
+  };
+
   return (
     <div className="min-h-screen pb-20 max-w-2xl mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4 sticky top-0 backdrop-blur-lg z-10">
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-5">
           Search
         </h1>
-        <div className="relative">
+        <form onSubmit={handleSubmit} className="relative">
           <input
-            type="text"
+            type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Search Wikipedia..."
-            className="w-full p-4 pr-12 rounded-xl bg-neutral-800/50 border border-white/10 text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#341F97]"
+            enterKeyHint="search"
+            className="w-full p-4 pr-12 rounded-xl bg-neutral-800/50 border border-white/10 text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#341F97] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-cancel-button]:h-5 [&::-webkit-search-cancel-button]:w-5 [&::-webkit-search-cancel-button]:bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20fill%3D%22%23ffffff%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%206.41L17.59%205%2012%2010.59%206.41%205%205%206.41%2010.59%2012%205%2017.59%206.41%2019%2012%2013.41%2017.59%2019%2019%2017.59%2013.41%2012z%22%2F%3E%3C%2Fsvg%3E')] [&::-webkit-search-cancel-button]:bg-contain"
           />
           <FaSearch
             className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-400"
             size={20}
           />
-        </div>
+        </form>
       </div>
 
       <div className="px-4">
