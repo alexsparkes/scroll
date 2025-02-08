@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Article } from "../hooks/useArticleFeed";
@@ -13,6 +13,7 @@ interface HomeFeedProps {
   savedArticles: Article[];
   handleSaveArticle: (article: Article) => void;
   isLoading?: boolean;
+  reset: () => void; // Add this line
 }
 
 function HomeFeed({
@@ -24,6 +25,7 @@ function HomeFeed({
   savedArticles,
   handleSaveArticle,
   isLoading,
+  reset, // Add this line
 }: HomeFeedProps) {
   const parentRef = React.useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -67,6 +69,13 @@ function HomeFeed({
     );
     handleScroll(e);
   };
+
+  // Reset articles when component unmounts
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [reset]);
 
   if (isLoading || articles.length === 0) {
     return (

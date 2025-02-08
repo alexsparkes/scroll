@@ -18,6 +18,7 @@ type ArticleContextType = {
   handleSaveArticle: (article: Article) => void;
   handleToggleReadArticle: (article: Article) => void;
   isLoading: boolean;
+  reset: () => void;
 };
 
 const ArticleContext = createContext<ArticleContextType | undefined>(undefined);
@@ -32,6 +33,7 @@ export const ArticleProvider: React.FC<{ children: React.ReactNode }> = ({
     toggleExpand,
     extractThreshold,
     isLoading,
+    reset,
   } = useArticleFeed();
   const [savedArticles, setSavedArticles] = useState<
     (Article & { read?: boolean })[]
@@ -76,6 +78,7 @@ export const ArticleProvider: React.FC<{ children: React.ReactNode }> = ({
       handleSaveArticle,
       handleToggleReadArticle,
       isLoading,
+      reset,
     }),
     [
       articles,
@@ -87,6 +90,7 @@ export const ArticleProvider: React.FC<{ children: React.ReactNode }> = ({
       handleSaveArticle,
       handleToggleReadArticle,
       isLoading,
+      reset,
     ]
   );
 

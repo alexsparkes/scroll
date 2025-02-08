@@ -19,6 +19,7 @@ function HomeFeedContainer() {
     extractThreshold,
     savedArticles,
     handleSaveArticle,
+    reset, // Add this line
   } = useArticle();
 
   return (
@@ -30,6 +31,7 @@ function HomeFeedContainer() {
       extractThreshold={extractThreshold}
       savedArticles={savedArticles}
       handleSaveArticle={handleSaveArticle}
+      reset={reset} // Add this line
     />
   );
 }

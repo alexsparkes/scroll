@@ -166,6 +166,12 @@ export default function useArticleFeed() {
     }));
   }, []);
 
+  const reset = useCallback(() => {
+    setArticles([]);
+    setExpandedIndices({});
+    prefetchedArticles.current = [];
+  }, []);
+
   return {
     articles,
     handleScroll,
@@ -173,5 +179,6 @@ export default function useArticleFeed() {
     toggleExpand,
     extractThreshold,
     isLoading: isFetching && articles.length === 0,
+    reset, // Add reset to the returned object
   };
 }
