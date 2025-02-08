@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaSearch, FaBookmark } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 import { useSearch } from "../hooks/useSearch";
@@ -34,11 +34,33 @@ export default function Search({
 }: SearchProps) {
   const [query, setQuery] = useState("");
   const { searchResults, searchLoading, searchError } = useSearch(query);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const {
     inTheNews,
     loading: trendingLoading,
     error: trendingError,
   } = useMainPageContent();
+
+  useEffect(() => {
+    searchInputRef.current?.focus();
+  }, []);
+
+  // Listen for navigation events
+  useEffect(() => {
+    const handleNavClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Check if the click was on the search nav item or its children
+      if (target.closest('a[href="/search"]')) {
+        // Small delay to ensure the focus works after navigation
+        setTimeout(() => {
+          searchInputRef.current?.focus();
+        }, 100);
+      }
+    };
+
+    document.addEventListener("click", handleNavClick);
+    return () => document.removeEventListener("click", handleNavClick);
+  }, []);
 
   const isArticleSaved = (title: string) => {
     return savedArticles.some((saved) => saved.title === title);
@@ -65,6 +87,7 @@ export default function Search({
         </h1>
         <form onSubmit={handleSubmit} className="relative">
           <input
+            ref={searchInputRef}
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

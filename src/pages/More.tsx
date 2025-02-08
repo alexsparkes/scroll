@@ -24,7 +24,7 @@ export default function More() {
             href="https://github.com/alexsparkes/wiki-flick"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out block bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
+            className="flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
           >
             <FaGithub className="text-neutral-300" />
             GitHub Repository
@@ -33,7 +33,7 @@ export default function More() {
             href="https://github.com/alexsparkes/wiki-flick"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out block bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
+            className="flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
           >
             <FaBriefcase className="text-neutral-300" />
             Portfolio
