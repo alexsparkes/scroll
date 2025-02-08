@@ -19,7 +19,7 @@ function SavedArticles({
   handleToggleReadArticle,
   handleScroll,
 }: SavedArticlesProps) {
-  const [filter, setFilter] = useState<"all" | "unread" | "read">("all");
+  const [filter, setFilter] = useState<"all" | "unread" | "read">("unread");
 
   const filteredArticles = savedArticles.filter((article) => {
     if (filter === "all") return true;
@@ -38,7 +38,7 @@ function SavedArticles({
           Saved Articles
         </h1>
         <div className="flex space-x-2">
-          {(["all", "unread", "read"] as const).map((option) => (
+          {(["unread", "all", "read"] as const).map((option) => (
             <button
               key={option}
               onClick={() => setFilter(option)}
@@ -118,18 +118,37 @@ function SavedArticles({
           <div className="w-16 h-16 mb-4">
             <FaBookmark className="w-full h-full text-gray-400" />
           </div>
-          <h2 className="text-xl font-semibold mb-2 dark:text-white">
-            No saved articles yet
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-center mb-4">
-            Articles you save will appear here
-          </p>
-          <NavLink
-            to="/"
-            className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-          >
-            Discover Articles
-          </NavLink>
+          {savedArticles.length === 0 ? (
+            <>
+              <h2 className="text-xl font-semibold mb-2 dark:text-white">
+                No saved articles yet
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 text-center mb-4">
+                Articles you save will appear here
+              </p>
+              <NavLink
+                to="/"
+                className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              >
+                Discover Articles
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold mb-2 dark:text-white">
+                You're all caught up!
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 text-center mb-4">
+                No {filter === "unread" ? "unread" : filter} articles to show
+              </p>
+              <NavLink
+                to="/"
+                className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              >
+                Discover Articles
+              </NavLink>
+            </>
+          )}
         </div>
       )}
     </div>
