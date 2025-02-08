@@ -66,7 +66,7 @@ export default function Discover() {
         {/* Featured Article Section */}
         <section className="mb-8">
           {loading ? (
-            <div className="animate-pulse">
+            <div className="">
               <div className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-transparent shadow-md">
                 <div className="w-full h-48 bg-neutral-700 rounded-t-xl mb-4"></div>
                 <div className="p-4">

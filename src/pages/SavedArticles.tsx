@@ -33,7 +33,7 @@ function SavedArticles({
       onScroll={handleScroll}
     >
       <div className="flex justify-between items-start p-4 flex-col gap-4 ">
-        <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-3">
+        <h1 className="text-5xl font-bold text-white flex flex-col pt-10 pb-3 font-serif">
           Saved Articles
         </h1>
         <div className="flex space-x-2">
@@ -59,6 +59,12 @@ function SavedArticles({
             (article: Article & { read?: boolean }, index: number) => (
               <div
                 key={index}
+                onClick={() =>
+                  window.open(
+                    "https://en.wikipedia.org/wiki/" +
+                      encodeURIComponent(article.title)
+                  )
+                }
                 className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md hover:shadow-lg transition transform hover:scale-105 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
                 tabIndex={0}
               >
