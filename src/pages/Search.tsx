@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 import { useMainPageContent } from "../hooks/useMainPageContent";
@@ -7,7 +7,13 @@ export default function Search() {
   const { inTheNews, loading, error } = useMainPageContent();
 
   const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  interface SearchResult {
+    pageid: number;
+    title: string;
+    snippet: string;
+  }
+
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
 
@@ -34,7 +40,7 @@ export default function Search() {
         .then((data) => {
           setSearchResults(data.query.search);
         })
-        .catch((err: any) => {
+        .catch((err: Error) => {
           setSearchError(err.message || "Error occurred");
         })
         .finally(() => {
