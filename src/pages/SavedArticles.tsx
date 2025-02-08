@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaBookmark, FaCheckCircle } from "react-icons/fa";
 import { Article } from "../hooks/useArticleFeed";
 import { NavLink } from "react-router-dom";
+import ArticleCard from "../components/ArticleCard";
 
 interface SavedArticlesProps {
   savedArticles: (Article & { read?: boolean })[];
@@ -57,66 +58,58 @@ function SavedArticles({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
           {filteredArticles.map(
             (article: Article & { read?: boolean }, index: number) => (
-              <div
+              <ArticleCard
                 key={index}
+                title={article.title}
+                snippet={
+                  article.extract.length > extractThreshold
+                    ? article.extract.slice(0, extractThreshold) + "..."
+                    : article.extract
+                }
+                thumbnail={article.thumbnail}
                 onClick={() =>
                   window.open(
                     "https://en.wikipedia.org/wiki/" +
                       encodeURIComponent(article.title)
                   )
                 }
-                className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md hover:shadow-lg transition transform hover:scale-105 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                tabIndex={0}
-              >
-                <button
-                  type="button"
-                  title="Mark as read/unread"
-                  aria-label={`Mark article "${article.title}" as ${
-                    article.read ? "unread" : "read"
-                  }`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleToggleReadArticle(article);
-                  }}
-                  className="absolute top-2 left-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                >
-                  <FaCheckCircle
-                    size={20}
-                    className={article.read ? "text-green-500" : "text-white"}
-                  />
-                </button>
+                actions={
+                  <>
+                    <button
+                      type="button"
+                      title="Mark as read/unread"
+                      aria-label={`Mark article "${article.title}" as ${
+                        article.read ? "unread" : "read"
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleReadArticle(article);
+                      }}
+                      className="absolute top-2 left-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    >
+                      <FaCheckCircle
+                        size={20}
+                        className={
+                          article.read ? "text-green-500" : "text-white"
+                        }
+                      />
+                    </button>
 
-                {/* Unsave button */}
-                <button
-                  type="button"
-                  title="Unsave article"
-                  aria-label={`Unsave article "${article.title}"`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSaveArticle(article);
-                  }}
-                  className="absolute top-2 right-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                >
-                  <FaBookmark size={20} className="text-yellow-500" />
-                </button>
-                {article?.thumbnail && (
-                  <img
-                    src={article.thumbnail.source}
-                    alt={article.title}
-                    className="w-full h-48 object-cover rounded-t-xl"
-                  />
-                )}
-                <div className="p-4">
-                  <h3 className="font-bold text-3xl mb-2 font-serif text-white">
-                    {article.title}
-                  </h3>
-                  <p className="text-neutral-300">
-                    {article.extract.length > extractThreshold
-                      ? article.extract.slice(0, extractThreshold) + "..."
-                      : article.extract}
-                  </p>
-                </div>
-              </div>
+                    <button
+                      type="button"
+                      title="Unsave article"
+                      aria-label={`Unsave article "${article.title}"`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSaveArticle(article);
+                      }}
+                      className="absolute top-2 right-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    >
+                      <FaBookmark size={20} className="text-yellow-500" />
+                    </button>
+                  </>
+                }
+              />
             )
           )}
         </div>

@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Article } from "../hooks/useArticleFeed";
-import ArticleCard from "../components/ArticleCard";
+import FeedCard from "../components/FeedCard";
 
 interface HomeFeedProps {
   articles: Article[];
@@ -138,7 +138,7 @@ function HomeFeed({
                 transform: `translateY(${virtualItem.start}px)`,
               }}
             >
-              <ArticleCard
+              <FeedCard
                 article={article}
                 index={virtualItem.index}
                 extractThreshold={extractThreshold}
