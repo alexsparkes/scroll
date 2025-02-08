@@ -49,7 +49,9 @@ export default function Discover() {
   return (
     <div className="min-h-screen bg-black text-white pb-[85px] max-w-2xl mx-auto">
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-6">Discover</h1>
+        <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-3">
+          Discover
+        </h1>
 
         {/* Featured Article Section */}
         <section className="mb-8">

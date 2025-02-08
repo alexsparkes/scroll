@@ -2,8 +2,10 @@ import { version } from "../../package.json";
 
 export default function More() {
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-white">More</h1>
+    <div className="p-4 max-w-md mx-auto pt-10">
+      <h1 className="text-5xl font-serif font-bold text-white flex flex-col">
+        More
+      </h1>
 
       <section className="mb-6">
         <h2 className="text-xl mb-3 text-white">App Info</h2>

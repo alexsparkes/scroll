@@ -32,8 +32,8 @@ function SavedArticles({
       className="h-screen overflow-y-scroll pb-20 lg:max-w-2xl lg:mx-auto"
       onScroll={handleScroll}
     >
-      <div className="flex justify-between items-start p-4 flex-col gap-4 pt-10">
-        <h1 className="text-5xl font-serif font-bold text-white flex flex-col">
+      <div className="flex justify-between items-start p-4 flex-col gap-4 ">
+        <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-3">
           Saved Articles
         </h1>
         <div className="flex space-x-2">
