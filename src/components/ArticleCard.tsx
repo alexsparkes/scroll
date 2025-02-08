@@ -1,5 +1,5 @@
 import React from "react";
-import { FaShare, FaExternalLinkAlt, FaBookmark } from "react-icons/fa";
+import { FaShare, FaBookOpen, FaBookmark } from "react-icons/fa";
 import { Article } from "../hooks/useArticleFeed";
 
 export interface ArticleCardProps {
@@ -67,7 +67,9 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
         )}
         <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
           <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
-            <h2 className="text-xl font-bold mb-2">{article.title}</h2>
+            <h2 className="text-3xl font-semibold mb-2 font-serif">
+              {article.title}
+            </h2>
             <p className="text mb-4">{displayedExtract}</p>
             {!isShort && (
               <button
@@ -113,7 +115,7 @@ const ArticleCard: React.FC<ArticleCardProps> = React.memo(
               className="text-white p-3 rounded-full flex flex-col items-center gap-2 group"
               onClick={handleRead}
             >
-              <FaExternalLinkAlt
+              <FaBookOpen
                 className="transition-transform duration-150 ease-in-out group-active:scale-125"
                 size={24}
               />

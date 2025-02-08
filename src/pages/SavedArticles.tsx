@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaBookmark, FaCheckCircle } from "react-icons/fa";
 import { Article } from "../hooks/useArticleFeed";
+import { NavLink } from "react-router-dom";
 
 interface SavedArticlesProps {
   savedArticles: (Article & { read?: boolean })[];
@@ -31,8 +32,10 @@ function SavedArticles({
       className="h-screen overflow-y-scroll pb-20 lg:max-w-2xl lg:mx-auto"
       onScroll={handleScroll}
     >
-      <div className="flex justify-between items-start p-4 flex-col gap-4">
-        <h1 className="text-2xl font-bold text-white">Saved Articles</h1>
+      <div className="flex justify-between items-start p-4 flex-col gap-4 pt-10">
+        <h1 className="text-5xl font-serif font-bold text-white flex flex-col">
+          Saved Articles
+        </h1>
         <div className="flex space-x-2">
           {(["all", "unread", "read"] as const).map((option) => (
             <button
@@ -121,8 +124,22 @@ function SavedArticles({
           )}
         </div>
       ) : (
-        <div className="h-screen flex items-center justify-center pb-20">
-          <h1 className="text-2xl text-white">No saved articles</h1>
+        <div className="pt-[50%] flex flex-col items-center justify-center p-8">
+          <div className="w-16 h-16 mb-4">
+            <FaBookmark className="w-full h-full text-gray-400" />
+          </div>
+          <h2 className="text-xl font-semibold mb-2 dark:text-white">
+            No saved articles yet
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 text-center mb-4">
+            Articles you save will appear here
+          </p>
+          <NavLink
+            to="/"
+            className="px-6 py-2 bg-[#341f97] text-white rounded-full"
+          >
+            Discover Articles
+          </NavLink>
         </div>
       )}
     </div>
