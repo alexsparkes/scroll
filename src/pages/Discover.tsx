@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   LuEarth,
   LuBrain,
@@ -5,13 +6,15 @@ import {
   LuPaintbrush,
   LuHistory,
   LuAtom,
-  LuNewspaper,
   LuStar,
 } from "react-icons/lu";
+import { FaWikipediaW } from "react-icons/fa";
 import { useMainPageContent } from "../hooks/useMainPageContent";
 
 export default function Discover() {
-  const { featuredArticle, inTheNews, loading, error } = useMainPageContent();
+  const { featuredArticle, loading, error } = useMainPageContent();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const extractThreshold = 150;
 
   const topics = [
     {
@@ -46,63 +49,61 @@ export default function Discover() {
     },
   ];
 
+  // Calculate displayed extract
+  const displayedExtract =
+    featuredArticle &&
+    featuredArticle.extract.length > extractThreshold &&
+    !isExpanded
+      ? featuredArticle.extract.slice(0, extractThreshold) + "..."
+      : featuredArticle?.extract;
+
   return (
     <div className="min-h-screen bg-black text-white pb-[85px] max-w-2xl mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4">
-        <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-3">
+        <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-7">
           Discover
         </h1>
 
         {/* Featured Article Section */}
         <section className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <LuStar className="w-6 h-6 text-yellow-500" />
-            <h2 className="text-xl font-semibold">Today's Featured Article</h2>
-          </div>
           {loading ? (
             <div className="animate-pulse bg-neutral-800 h-40 rounded-lg" />
           ) : error ? (
             <div className="text-red-500">{error}</div>
           ) : (
-            <div className="bg-neutral-900 rounded-lg p-4">
-              {featuredArticle.thumbnail && (
+            <div
+              className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md 
+                      hover:shadow-lg transition transform hover:scale-105 cursor-pointer"
+            >
+              <div className="absolute top-3 right-3">
+                <div className="rounded-lg px-5 py-2 bg-neutral-900/70 backdrop-blur-lg text-white text-xs font-bold flex flex-row gap-2 items-center">
+                  <FaWikipediaW />
+                  Featured Article
+                </div>
+              </div>
+              {featuredArticle?.thumbnail && (
                 <img
                   src={featuredArticle.thumbnail}
                   alt={featuredArticle.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
+                  className="w-full h-48 object-cover rounded-t-xl mb-4"
                 />
               )}
-              <h3 className="font-bold mb-2">{featuredArticle.title}</h3>
-              <p className="text-neutral-400">{featuredArticle.extract}</p>
-            </div>
-          )}
-        </section>
-
-        {/* In The News Section */}
-        <section className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <LuNewspaper className="w-6 h-6 text-blue-500" />
-            <h2 className="text-xl font-semibold">In The News</h2>
-          </div>
-          {loading ? (
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="animate-pulse bg-neutral-800 h-20 rounded-lg"
-                />
-              ))}
-            </div>
-          ) : error ? (
-            <div className="text-red-500">{error}</div>
-          ) : (
-            <div className="space-y-4">
-              {inTheNews.map((item, index) => (
-                <div key={index} className="bg-neutral-900 rounded-lg p-4">
-                  <h3 className="font-bold mb-2">{item.title}</h3>
-                  <p className="text-neutral-400">{item.extract}</p>
-                </div>
-              ))}
+              <div className="p-4">
+                <h3 className="font-bold text-3xl mb-2 font-serif">
+                  {featuredArticle.title}
+                </h3>
+                <p className="text-neutral-300">{displayedExtract}</p>
+                {featuredArticle &&
+                  featuredArticle.extract.length > extractThreshold && (
+                    <button
+                      type="button"
+                      onClick={() => setIsExpanded((prev) => !prev)}
+                      className="text-blue-400 underline mt-2"
+                    >
+                      {isExpanded ? "See Less" : "See More"}
+                    </button>
+                  )}
+              </div>
             </div>
           )}
         </section>
