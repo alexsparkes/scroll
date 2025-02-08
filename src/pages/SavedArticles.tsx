@@ -59,36 +59,20 @@ function SavedArticles({
             (article: Article & { read?: boolean }, index: number) => (
               <div
                 key={index}
-                onClick={() =>
-                  window.open(
-                    `https://en.wikipedia.org/wiki/${encodeURIComponent(
-                      article.title
-                    )}`,
-                    "_blank"
-                  )
-                }
-                className="relative border rounded-lg overflow-hidden border-neutral-600 cursor-pointer"
-                style={{
-                  backgroundImage: article.thumbnail
-                    ? `url(${article.thumbnail.source})`
-                    : undefined,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  height: "10rem",
-                }}
+                className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md hover:shadow-lg transition transform hover:scale-105 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                tabIndex={0}
               >
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-
-                {/* Read toggle button */}
                 <button
                   type="button"
                   title="Mark as read/unread"
+                  aria-label={`Mark article "${article.title}" as ${
+                    article.read ? "unread" : "read"
+                  }`}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleToggleReadArticle(article);
                   }}
-                  className="absolute top-2 left-2 p-1 bg-black bg-opacity-50 rounded-full"
+                  className="absolute top-2 left-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
                 >
                   <FaCheckCircle
                     size={20}
@@ -100,21 +84,27 @@ function SavedArticles({
                 <button
                   type="button"
                   title="Unsave article"
+                  aria-label={`Unsave article "${article.title}"`}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleSaveArticle(article);
                   }}
-                  className="absolute top-2 right-2 p-1 bg-black bg-opacity-50 rounded-full"
+                  className="absolute top-2 right-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
                 >
                   <FaBookmark size={20} className="text-yellow-500" />
                 </button>
-
-                {/* Text overlay */}
-                <div className="absolute bottom-0 left-0 p-2">
-                  <h2 className="text-lg font-bold text-white">
+                {article?.thumbnail && (
+                  <img
+                    src={article.thumbnail.source}
+                    alt={article.title}
+                    className="w-full h-48 object-cover rounded-t-xl"
+                  />
+                )}
+                <div className="p-4">
+                  <h3 className="font-bold text-3xl mb-2 font-serif text-white">
                     {article.title}
-                  </h2>
-                  <p className="text-sm text-white">
+                  </h3>
+                  <p className="text-neutral-300">
                     {article.extract.length > extractThreshold
                       ? article.extract.slice(0, extractThreshold) + "..."
                       : article.extract}
@@ -137,7 +127,7 @@ function SavedArticles({
           </p>
           <NavLink
             to="/"
-            className="px-6 py-2 bg-[#341f97] text-white rounded-full"
+            className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             Discover Articles
           </NavLink>

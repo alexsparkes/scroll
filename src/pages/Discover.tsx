@@ -93,7 +93,7 @@ export default function Discover() {
                 <img
                   src={featuredArticle.thumbnail}
                   alt={featuredArticle.title}
-                  className="w-full h-48 object-cover rounded-t-xl mb-4"
+                  className="w-full h-48 object-cover rounded-t-xl"
                 />
               )}
               <div className="p-4">
