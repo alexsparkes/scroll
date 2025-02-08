@@ -21,7 +21,9 @@ function SavedArticles({
 }: SavedArticlesProps) {
   const [filter, setFilter] = useState<"all" | "unread" | "read">("unread");
 
-  const filteredArticles = savedArticles.filter((article) => {
+  const articles = Array.isArray(savedArticles) ? savedArticles : [];
+
+  const filteredArticles = articles.filter((article) => {
     if (filter === "all") return true;
     if (filter === "read") return article.read;
     if (filter === "unread") return !article.read;

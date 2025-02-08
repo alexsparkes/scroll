@@ -1,11 +1,37 @@
 import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaBookmark } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
 import { useSearch } from "../hooks/useSearch";
+import { Article } from "../hooks/useArticleFeed";
 import { useMainPageContent } from "../hooks/useMainPageContent";
 import ArticleCard from "../components/ArticleCard";
 
-export default function Search() {
+interface SearchProps {
+  savedArticles: (Article & { read?: boolean })[];
+  handleSaveArticle: (article: Article) => void;
+}
+
+interface SearchResult {
+  title: string;
+  snippet?: string;
+  description?: string;
+  thumbnail?: {
+    source: string;
+    width: number;
+    height: number;
+  };
+  pageid: number;
+}
+const searchResultToArticle = (result: SearchResult): Article => ({
+  title: result.title,
+  extract: result.snippet || result.description || "", // Use snippet as extract
+  thumbnail: result.thumbnail,
+});
+
+export default function Search({
+  savedArticles,
+  handleSaveArticle,
+}: SearchProps) {
   const [query, setQuery] = useState("");
   const { searchResults, searchLoading, searchError } = useSearch(query);
   const {
@@ -13,6 +39,10 @@ export default function Search() {
     loading: trendingLoading,
     error: trendingError,
   } = useMainPageContent();
+
+  const isArticleSaved = (title: string) => {
+    return savedArticles.some((saved) => saved.title === title);
+  };
 
   return (
     <div className="min-h-screen pb-20 max-w-2xl mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
@@ -68,6 +98,33 @@ export default function Search() {
                       )}`,
                       "_blank"
                     )
+                  }
+                  actions={
+                    <button
+                      type="button"
+                      title={
+                        isArticleSaved(result.title)
+                          ? "Remove from saved"
+                          : "Save article"
+                      }
+                      aria-label={`${
+                        isArticleSaved(result.title) ? "Remove" : "Save"
+                      } article "${result.title}"`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSaveArticle(searchResultToArticle(result));
+                      }}
+                      className="absolute top-2 right-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    >
+                      <FaBookmark
+                        size={20}
+                        className={
+                          isArticleSaved(result.title)
+                            ? "text-yellow-500"
+                            : "text-white"
+                        }
+                      />
+                    </button>
                   }
                 />
               ))}

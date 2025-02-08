@@ -52,6 +52,17 @@ function SavedArticlesContainer() {
   );
 }
 
+function SearchContainer() {
+  const { savedArticles, handleSaveArticle } = useArticle();
+
+  return (
+    <Search
+      savedArticles={savedArticles}
+      handleSaveArticle={handleSaveArticle}
+    />
+  );
+}
+
 function App() {
   return (
     <ArticleProvider>
@@ -103,7 +114,7 @@ function App() {
                 path="/search"
                 element={
                   <ErrorBoundary>
-                    <Search />
+                    <SearchContainer />
                   </ErrorBoundary>
                 }
               />
