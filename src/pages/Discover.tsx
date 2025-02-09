@@ -20,7 +20,7 @@ export default function Discover() {
   return (
     <div className="lg:ml-[200px] min-h-screen bg-black text-white pb-[85px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4">
-        <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-7">
+        <h1 className="text-5xl font-serif font-semibold text-white flex flex-col pt-10 pb-7">
           {t("discover.title")}
         </h1>
 

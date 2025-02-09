@@ -38,7 +38,7 @@ function SavedArticles({
       onScroll={handleScroll}
     >
       <div className="flex justify-between items-start p-4 flex-col gap-4 ">
-        <h1 className="text-5xl font-bold text-white flex flex-col pt-10 pb-3 font-serif">
+        <h1 className="text-5xl font-semibold text-white flex flex-col pt-10 pb-3 font-serif max-w-[100px] lg:max-w-[575px]">
           {t("saved.title")}
         </h1>
         <div className="flex space-x-2">
