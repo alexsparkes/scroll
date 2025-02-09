@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useEffect } from "react";
-import { FaSpinner } from "react-icons/fa";
+import React, { useCallback, useRef, useEffect, useState } from "react";
+import { FaSpinner, FaAngleUp, FaAngleDown } from "react-icons/fa";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Article } from "../hooks/useArticleFeed";
 import FeedCard from "../components/FeedCard";
@@ -13,7 +13,7 @@ interface HomeFeedProps {
   savedArticles: Article[];
   handleSaveArticle: (article: Article) => void;
   isLoading?: boolean;
-  reset: () => void; // Add this line
+  reset: () => void;
 }
 
 function HomeFeed({
@@ -25,11 +25,12 @@ function HomeFeed({
   savedArticles,
   handleSaveArticle,
   isLoading,
-  reset, // Add this line
+  reset,
 }: HomeFeedProps) {
-  const parentRef = React.useRef<HTMLDivElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const currentArticleIndex = useRef<number>(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -64,9 +65,9 @@ function HomeFeed({
   // Track current article index based on scroll position
   const handleScrollWithTracking = (e: React.UIEvent<HTMLDivElement>) => {
     const element = e.target as HTMLDivElement;
-    currentArticleIndex.current = Math.floor(
-      element.scrollTop / window.innerHeight
-    );
+    const index = Math.floor(element.scrollTop / window.innerHeight);
+    currentArticleIndex.current = index;
+    setCurrentIndex(index);
     handleScroll(e);
   };
 
@@ -76,6 +77,35 @@ function HomeFeed({
       reset();
     };
   }, [reset]);
+
+  // Function to scroll up to the previous article
+  const scrollUp = () => {
+    if (parentRef.current) {
+      const newIndex = Math.max(currentArticleIndex.current - 1, 0);
+      parentRef.current.scrollTo({
+        top: newIndex * window.innerHeight,
+        behavior: "smooth",
+      });
+      currentArticleIndex.current = newIndex;
+      setCurrentIndex(newIndex);
+    }
+  };
+
+  // Function to scroll down to the next article
+  const scrollDown = () => {
+    if (parentRef.current) {
+      const newIndex = Math.min(
+        currentArticleIndex.current + 1,
+        articles.length - 1
+      );
+      parentRef.current.scrollTo({
+        top: newIndex * window.innerHeight,
+        behavior: "smooth",
+      });
+      currentArticleIndex.current = newIndex;
+      setCurrentIndex(newIndex);
+    }
+  };
 
   if (isLoading || articles.length === 0) {
     return (
@@ -112,58 +142,85 @@ function HomeFeed({
   }
 
   return (
-    <div
-      ref={parentRef}
-      className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-[10vh]"
-      onScroll={handleScrollWithTracking}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
+    <>
       <div
-        style={{
-          height: `${virtualizer.getTotalSize()}px`,
-          width: "100%",
-          position: "relative",
-        }}
+        ref={parentRef}
+        className="h-screen overflow-y-scroll scroll-smooth snap-y snap-mandatory pb-[10vh]"
+        onScroll={handleScrollWithTracking}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
-        {virtualizer.getVirtualItems().map((virtualItem) => {
-          const article = articles[virtualItem.index];
-          const isExpanded =
-            expandedIndices[virtualItem.index] ||
-            article.extract.length <= extractThreshold;
-          const isArticleSaved = savedArticles.some(
-            (a) => a.title === article.title
-          );
+        <div
+          style={{
+            height: `${virtualizer.getTotalSize()}px`,
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {virtualizer.getVirtualItems().map((virtualItem) => {
+            const article = articles[virtualItem.index];
+            const isExpanded =
+              expandedIndices[virtualItem.index] ||
+              article.extract.length <= extractThreshold;
+            const isArticleSaved = savedArticles.some(
+              (a) => a.title === article.title
+            );
 
-          return (
-            <div
-              key={virtualItem.key}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100vh",
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-            >
-              <FeedCard
-                article={article}
-                index={virtualItem.index}
-                extractThreshold={extractThreshold}
-                isExpanded={isExpanded}
-                toggleExpand={toggleExpand}
-                isArticleSaved={isArticleSaved}
-                handleSaveArticle={handleSaveArticle}
-              />
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={virtualItem.key}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100vh",
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
+              >
+                <FeedCard
+                  article={article}
+                  index={virtualItem.index}
+                  extractThreshold={extractThreshold}
+                  isExpanded={isExpanded}
+                  toggleExpand={toggleExpand}
+                  isArticleSaved={isArticleSaved}
+                  handleSaveArticle={handleSaveArticle}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div className="h-screen flex items-center justify-center">
+          <FaSpinner className="animate-spin text-white" size={24} />
+        </div>
       </div>
-      <div className="h-screen flex items-center justify-center">
-        <FaSpinner className="animate-spin text-white" size={24} />
-      </div>
-    </div>
+
+      {/* Navigation buttons to scroll up and down */}
+      <section className="hidden lg:flex z-50 fixed h-full right-0 top-0 justify-center items-center flex-col">
+        <div className="px-8 flex flex-col gap-5">
+          <button
+            type="button"
+            title="Scroll Up"
+            disabled={currentIndex === 0}
+            className={`active:scale-90 group-active:opacity-70 w-12 h-12 bg-neutral-800/50 border border-white/10 text-white flex items-center justify-center rounded-full ${
+              currentIndex === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={scrollUp}
+          >
+            <FaAngleUp />
+          </button>
+          <button
+            type="button"
+            title="Scroll Down"
+            className="active:scale-90 group-active:opacity-70 w-12 h-12 bg-neutral-800/50 border border-white/10 text-white flex items-center justify-center rounded-full"
+            onClick={scrollDown}
+          >
+            <FaAngleDown />
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
 
