@@ -22,23 +22,23 @@ Experience [Scroll](https://scroll.alexspark.es)
    git clone https://github.com/alexsparkes/scroll.git
    ```
 
-2. **Install Dependencies:**
+1. **Install Dependencies:**
 
-```sh
-bun install
-```
+   ```sh
+   bun install
+   ```
 
-3. **Run the development server**
+1. **Run the development server:**
 
-```sh
-bun run dev
-```
+   ```sh
+   bun run dev
+   ```
 
-4. **Build for production**
+1. **Build for production:**
 
-```sh
-bun run build
-```
+   ```sh
+   bun run build
+   ```
 
 ## License
 
