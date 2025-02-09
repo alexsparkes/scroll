@@ -1,7 +1,14 @@
 {
-  "name": "wiki-flick",
+  "name": "scroll",
   "private": true,
   "version": "0.1.0",
+  "description": "A tiktok style infinite wikipedia scroll.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexsparkes/scroll.git"
+  },
+  "author": "Alex Sparkes <alexsparkes@gmail.com>",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

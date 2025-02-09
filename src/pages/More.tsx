@@ -27,7 +27,7 @@ export default function More() {
         <h1 className="text-xl text-white font-sans">{t("more.links")}</h1>
         <div className="space-y-4">
           <a
-            href="https://github.com/alexsparkes/wiki-flick"
+            href="https://github.com/alexsparkes/scroll"
             target="_blank"
             rel="noopener noreferrer"
             className="lg:w-[575px] flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
@@ -36,7 +36,7 @@ export default function More() {
             {t("more.repository")}
           </a>
           <a
-            href="https://github.com/alexsparkes/wiki-flick"
+            href="https://alexspark.es"
             target="_blank"
             rel="noopener noreferrer"
             className="lg:w-[575px] flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"

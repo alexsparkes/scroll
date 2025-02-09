@@ -1,0 +1,20 @@
+{
+  "short_name": "Scroll",
+  "name": "Scroll - Scrollable Wikipedia",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#341F97",
+  "icons": [
+    {
+      "src": "/scroll-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/scroll-og.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
