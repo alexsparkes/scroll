@@ -23,7 +23,9 @@ export default {
     description: 'Un lector de Wikipedia estilo TikTok.',
     links: 'Enlaces',
     repository: 'Repositorio GitHub',
-    portfolio: 'Portafolio'
+    portfolio: 'Portafolio',
+    wikipediaNotice:
+    'Este producto utiliza datos de Wikipedia y está disponible bajo la licencia Creative Commons Attribution-ShareAlike. © Wikimedia Foundation. Se pueden aplicar términos adicionales.',
   },
   discover: {
     title: 'Descubrir',

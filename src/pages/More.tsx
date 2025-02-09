@@ -50,6 +50,15 @@ export default function More() {
       <section>
         <LanguageSwitcher />
       </section>
+
+      <section className="mb-6">
+        <p className="text-neutral-400 text-sm">
+          {t("more.wikipediaNotice", {
+            defaultValue:
+              "This product uses data from Wikipedia and is available under a Creative Commons Attribution-ShareAlike License. © Wikimedia Foundation. Additional terms may apply.",
+          })}
+        </p>
+      </section>
     </div>
   );
 }

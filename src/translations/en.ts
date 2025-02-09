@@ -23,8 +23,10 @@ export default {
     description: 'A Tiktok style wikipedia reader.',
     links: 'Links',
     repository: 'GitHub Repository',
-    portfolio: 'Portfolio'
-  },
+    portfolio: 'Portfolio',
+    wikipediaNotice:
+    'This product uses data from Wikipedia and is available under a Creative Commons Attribution-ShareAlike License. © Wikimedia Foundation. Additional terms may apply.'
+},
   discover: {
     title: 'Discover',
     featuredArticle: 'Featured Article',
