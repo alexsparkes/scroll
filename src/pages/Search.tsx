@@ -5,6 +5,7 @@ import { useSearch } from "../hooks/useSearch";
 import { Article } from "../hooks/useArticleFeed";
 import { useMainPageContent } from "../hooks/useMainPageContent";
 import ArticleCard from "../components/ArticleCard";
+import { useTranslation } from "react-i18next";
 
 interface SearchProps {
   savedArticles: (Article & { read?: boolean })[];
@@ -32,6 +33,7 @@ export default function Search({
   savedArticles,
   handleSaveArticle,
 }: SearchProps) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const { searchResults, searchLoading, searchError } = useSearch(query);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -83,7 +85,7 @@ export default function Search({
     <div className="min-h-screen pb-20 lg:ml-[200px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4 sticky top-0 backdrop-blur-lg z-10 lg:w-[575px]">
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-5">
-          Search
+          {t("search.title")}
         </h1>
         <form onSubmit={handleSubmit} className="relative">
           <input
@@ -92,7 +94,7 @@ export default function Search({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Search Wikipedia..."
+            placeholder={t("search.placeholder")}
             enterKeyHint="search"
             className="w-full p-4 pr-12 rounded-xl bg-neutral-800/50 border border-white/10 text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#341F97] [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-cancel-button]:h-5 [&::-webkit-search-cancel-button]:w-5 [&::-webkit-search-cancel-button]:bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20fill%3D%22%23ffffff%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%206.41L17.59%205%2012%2010.59%206.41%205%205%206.41%2010.59%2012%205%2017.59%206.41%2019%2012%2013.41%2017.59%2019%2019%2017.59%2013.41%2012z%22%2F%3E%3C%2Fsvg%3E')] [&::-webkit-search-cancel-button]:bg-contain"
           />
@@ -120,8 +122,7 @@ export default function Search({
           ) : searchResults.length > 0 ? (
             <>
               <div className="text-neutral-400 font-semibold mb-2">
-                {searchResults.length} result
-                {searchResults.length === 1 ? "" : "s"} found
+                {t("search.resultsFound", { count: searchResults.length })}
               </div>
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {searchResults.map((result) => (
@@ -143,12 +144,15 @@ export default function Search({
                         type="button"
                         title={
                           isArticleSaved(result.title)
-                            ? "Remove from saved"
-                            : "Save article"
+                            ? t("search.removeFromSaved")
+                            : t("search.saveArticle")
                         }
-                        aria-label={`${
-                          isArticleSaved(result.title) ? "Remove" : "Save"
-                        } article "${result.title}"`}
+                        aria-label={t("search.saveArticleLabel", {
+                          action: isArticleSaved(result.title)
+                            ? t("search.removeFromSaved")
+                            : t("search.saveArticle"),
+                          title: result.title,
+                        })}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleSaveArticle(searchResultToArticle(result));
@@ -171,14 +175,14 @@ export default function Search({
             </>
           ) : (
             <div className="text-center p-8 text-neutral-400">
-              No results found
+              {t("search.noResults")}
             </div>
           )
         ) : (
           // Show trending articles when no search query
           <section className="mt-4 lg:w-[575px]">
             <h2 className="text-2xl font-semibold text-white mb-4">
-              Trending Articles
+              {t("search.trending")}
             </h2>
             {trendingLoading ? (
               <div className="animate-pulse space-y-4">

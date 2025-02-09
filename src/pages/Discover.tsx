@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   LuEarth,
   LuBrain,
@@ -11,6 +12,7 @@ import { FaWikipediaW } from "react-icons/fa";
 import { useMainPageContent } from "../hooks/useMainPageContent";
 
 export default function Discover() {
+  const { t } = useTranslation();
   const { featuredArticle, loading } = useMainPageContent();
   const [isExpanded, setIsExpanded] = useState(false);
   const extractThreshold = 150;
@@ -18,32 +20,32 @@ export default function Discover() {
   const topics = [
     {
       icon: <LuEarth className="w-10 h-10" />,
-      title: "Geography",
+      title: t("discover.geography"),
       gradient: "from-emerald-800/90 via-green-900/80 to-teal-900",
     },
     {
       icon: <LuBrain className="w-10 h-10" />,
-      title: "Psychology",
+      title: t("discover.psychology"),
       gradient: "from-purple-800/90 via-purple-900/80 to-indigo-900",
     },
     {
       icon: <LuFlaskConical className="w-10 h-10" />,
-      title: "Science",
+      title: t("discover.science"),
       gradient: "from-blue-800/90 via-blue-900/80 to-cyan-900",
     },
     {
       icon: <LuPaintbrush className="w-10 h-10" />,
-      title: "Art",
+      title: t("discover.art"),
       gradient: "from-rose-800/90 via-pink-900/80 to-red-900",
     },
     {
       icon: <LuHistory className="w-10 h-10" />,
-      title: "History",
+      title: t("discover.history"),
       gradient: "from-amber-800/90 via-orange-900/80 to-red-900",
     },
     {
       icon: <LuAtom className="w-10 h-10" />,
-      title: "Physics",
+      title: t("discover.physics"),
       gradient: "from-sky-800/90 via-blue-900/80 to-indigo-900",
     },
   ];
@@ -60,24 +62,13 @@ export default function Discover() {
     <div className="lg:ml-[200px] min-h-screen bg-black text-white pb-[85px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4">
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-7">
-          Discover
+          {t("discover.title")}
         </h1>
 
         {/* Featured Article Section */}
         <section className="mb-8 lg:w-[575px]">
           {loading ? (
-            <div className="">
-              <div className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-transparent shadow-md">
-                <div className="w-full h-48 bg-neutral-700 rounded-t-xl mb-4"></div>
-                <div className="p-4">
-                  <div className="h-8 bg-neutral-700 rounded w-1/2 mb-2"></div>
-                  <div className="h-4 bg-neutral-700 rounded w-full mb-1"></div>
-                  <div className="h-4 bg-neutral-700 rounded w-full mb-1"></div>
-                  <div className="h-4 bg-neutral-700 rounded w-3/4 mb-1"></div>
-                  <div className="h-6 bg-neutral-700 rounded mt-2 w-20"></div>
-                </div>
-              </div>
-            </div>
+            <div className="text-center">{t("discover.loading")}</div>
           ) : (
             <div
               className="lg:w-[575px] relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md 
@@ -86,7 +77,7 @@ export default function Discover() {
               <div className="absolute top-3 right-3">
                 <div className="rounded-lg px-5 py-2 bg-neutral-900/70 backdrop-blur-lg text-white text-xs font-bold flex flex-row gap-2 items-center">
                   <FaWikipediaW />
-                  Featured Article
+                  {t("discover.featuredBadge")}
                 </div>
               </div>
               {featuredArticle?.thumbnail && (
@@ -108,7 +99,9 @@ export default function Discover() {
                       onClick={() => setIsExpanded((prev) => !prev)}
                       className="text-blue-400 underline mt-2"
                     >
-                      {isExpanded ? "See Less" : "See More"}
+                      {isExpanded
+                        ? t("discover.seeLess")
+                        : t("discover.seeMore")}
                     </button>
                   )}
               </div>
@@ -118,7 +111,9 @@ export default function Discover() {
 
         {/* Topics Grid */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Browse Topics</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            {t("discover.browseTopics")}
+          </h2>
           <div className="grid grid-cols-2 gap-4">
             {topics.map((topic, index) => (
               <div

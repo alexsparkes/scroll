@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 import HomeFeed from "./pages/HomeFeed";
 import SavedArticles from "./pages/SavedArticles";
 import { ArticleProvider, useArticle } from "./context/ArticleContext";
@@ -68,66 +70,68 @@ function SearchContainer() {
 
 function App() {
   return (
-    <ArticleProvider>
-      <TopicProvider>
-        <BrowserRouter>
-          <div className="relative min-h-screen">
-            <SideNavbar />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <ErrorBoundary>
-                    <Suspense
-                      fallback={
-                        <div className="h-screen w-screen text-xl p-4 text-center text-white">
-                          Loading...
-                        </div>
-                      }
-                    >
-                      <HomeFeedContainer />
-                    </Suspense>
-                  </ErrorBoundary>
-                }
-              />
-              <Route
-                path="/discover"
-                element={
-                  <ErrorBoundary>
-                    <Discover />
-                  </ErrorBoundary>
-                }
-              />
-              <Route
-                path="/saved"
-                element={
-                  <ErrorBoundary>
-                    <SavedArticlesContainer />
-                  </ErrorBoundary>
-                }
-              />
-              <Route
-                path="/more"
-                element={
-                  <ErrorBoundary>
-                    <More />
-                  </ErrorBoundary>
-                }
-              />
-              <Route
-                path="/search"
-                element={
-                  <ErrorBoundary>
-                    <SearchContainer />
-                  </ErrorBoundary>
-                }
-              />
-            </Routes>
-            <BottomNav />
-          </div>
-        </BrowserRouter>
-      </TopicProvider>
-    </ArticleProvider>
+    <I18nextProvider i18n={i18n}>
+      <ArticleProvider>
+        <TopicProvider>
+          <BrowserRouter>
+            <div className="relative min-h-screen">
+              <SideNavbar />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <ErrorBoundary>
+                      <Suspense
+                        fallback={
+                          <div className="h-screen w-screen text-xl p-4 text-center text-white">
+                            Loading...
+                          </div>
+                        }
+                      >
+                        <HomeFeedContainer />
+                      </Suspense>
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/discover"
+                  element={
+                    <ErrorBoundary>
+                      <Discover />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/saved"
+                  element={
+                    <ErrorBoundary>
+                      <SavedArticlesContainer />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/more"
+                  element={
+                    <ErrorBoundary>
+                      <More />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/search"
+                  element={
+                    <ErrorBoundary>
+                      <SearchContainer />
+                    </ErrorBoundary>
+                  }
+                />
+              </Routes>
+              <BottomNav />
+            </div>
+          </BrowserRouter>
+        </TopicProvider>
+      </ArticleProvider>
+    </I18nextProvider>
   );
 }
 

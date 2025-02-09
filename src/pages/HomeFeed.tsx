@@ -3,6 +3,7 @@ import { FaSpinner, FaAngleUp, FaAngleDown } from "react-icons/fa";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Article } from "../hooks/useArticleFeed";
 import FeedCard from "../components/FeedCard";
+import { useTranslation } from "react-i18next";
 
 interface HomeFeedProps {
   articles: Article[];
@@ -27,6 +28,7 @@ function HomeFeed({
   isLoading,
   reset,
 }: HomeFeedProps) {
+  const { t } = useTranslation();
   const parentRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const currentArticleIndex = useRef<number>(0);
@@ -137,6 +139,7 @@ function HomeFeed({
             </div>
           </div>
         </div>
+        <div className="text-center text-white mt-4">{t("feed.loading")}</div>
       </div>
     );
   }

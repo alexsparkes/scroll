@@ -1,6 +1,7 @@
 import React from "react";
 import { FaShare, FaBookOpen, FaBookmark } from "react-icons/fa";
 import { Article } from "../hooks/useArticleFeed";
+import { useTranslation } from "react-i18next";
 
 export interface ArticleFeedCardProps {
   article: Article;
@@ -22,6 +23,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
     isArticleSaved,
     handleSaveArticle,
   }) => {
+    const { t } = useTranslation();
     const isShort = article.extract.length <= extractThreshold;
     const displayedExtract = isExpanded
       ? article.extract
@@ -88,7 +90,9 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
         <div className="absolute left-0 bottom-[75px] lg:bottom-0 pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
           <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
             <span className="px-2 py-1 bg-neutral-800/20 text-white border border-white/30 backdrop-blur-lg rounded-full text-xs font-semibold mb-2">
-              {readingTime === 0.5 ? "30 sec" : `${readingTime} min`} read
+              {readingTime === 0.5
+                ? t("feed.readTime30")
+                : t("feed.readTime", { time: readingTime })}
             </span>
             <h2 className="text-3xl font-semibold mb-2 font-serif">
               {article.title}
@@ -101,7 +105,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
                 className="text-blue-400 underline"
                 onClick={() => toggleExpand(index)}
               >
-                {isExpanded ? "See Less" : "See More"}
+                {isExpanded ? t("feed.seeLess") : t("feed.seeMore")}
               </button>
             )}
           </div>
@@ -118,7 +122,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
                   isArticleSaved ? "text-yellow-500" : "text-white"
                 }`}
               />
-              <span className="text-xs text-white">Save</span>
+              <span className="text-xs text-white">{t("feed.save")}</span>
             </button>
             <button
               type="button"
@@ -130,7 +134,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
                 className="transition-transform duration-150 ease-in-out group-active:scale-125"
                 size={24}
               />
-              <span className="text-xs text-white">Share</span>
+              <span className="text-xs text-white">{t("feed.share")}</span>
             </button>
             <button
               type="button"
@@ -142,7 +146,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
                 className="transition-transform duration-150 ease-in-out group-active:scale-125"
                 size={24}
               />
-              <span className="text-xs text-white">Read</span>
+              <span className="text-xs text-white">{t("feed.read")}</span>
             </button>
           </div>
         </div>

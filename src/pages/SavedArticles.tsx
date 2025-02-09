@@ -3,6 +3,7 @@ import { FaBookmark, FaCheckCircle } from "react-icons/fa";
 import { Article } from "../hooks/useArticleFeed";
 import { NavLink } from "react-router-dom";
 import ArticleCard from "../components/ArticleCard";
+import { useTranslation } from "react-i18next";
 
 interface SavedArticlesProps {
   savedArticles: (Article & { read?: boolean })[];
@@ -19,6 +20,7 @@ function SavedArticles({
   handleToggleReadArticle,
   handleScroll,
 }: SavedArticlesProps) {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState<"all" | "unread" | "read">("unread");
 
   const articles = Array.isArray(savedArticles) ? savedArticles : [];
@@ -37,7 +39,7 @@ function SavedArticles({
     >
       <div className="flex justify-between items-start p-4 flex-col gap-4 ">
         <h1 className="text-5xl font-bold text-white flex flex-col pt-10 pb-3 font-serif">
-          Saved Articles
+          {t("saved.title")}
         </h1>
         <div className="flex space-x-2">
           {(["unread", "all", "read"] as const).map((option) => (
@@ -51,7 +53,7 @@ function SavedArticles({
                   : "bg-black/30 text-gray-300 border border-white/20 backdrop-blur-sm"
               }`}
             >
-              {option[0].toUpperCase() + option.slice(1)}
+              {t(`saved.${option}`)}
             </button>
           ))}
         </div>
@@ -79,10 +81,16 @@ function SavedArticles({
                   <>
                     <button
                       type="button"
-                      title="Mark as read/unread"
-                      aria-label={`Mark article "${article.title}" as ${
-                        article.read ? "unread" : "read"
-                      }`}
+                      title={
+                        article.read
+                          ? t("saved.markAsUnread", { title: article.title })
+                          : t("saved.markAsRead", { title: article.title })
+                      }
+                      aria-label={
+                        article.read
+                          ? t("saved.markAsUnread", { title: article.title })
+                          : t("saved.markAsRead", { title: article.title })
+                      }
                       onClick={(e) => {
                         e.stopPropagation();
                         handleToggleReadArticle(article);
@@ -99,8 +107,10 @@ function SavedArticles({
 
                     <button
                       type="button"
-                      title="Unsave article"
-                      aria-label={`Unsave article "${article.title}"`}
+                      title={t("saved.unsaveArticle", { title: article.title })}
+                      aria-label={t("saved.unsaveArticle", {
+                        title: article.title,
+                      })}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleSaveArticle(article);
@@ -123,31 +133,31 @@ function SavedArticles({
           {savedArticles.length === 0 ? (
             <>
               <h2 className="text-xl font-semibold mb-2 dark:text-white">
-                No saved articles yet
+                {t("saved.noSavedArticles")}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-center mb-4">
-                Articles you save will appear here
+                {t("saved.willAppearHere")}
               </p>
               <NavLink
                 to="/"
                 className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               >
-                Discover Articles
+                {t("saved.discoverArticles")}
               </NavLink>
             </>
           ) : (
             <>
               <h2 className="text-xl font-semibold mb-2 dark:text-white">
-                You're all caught up!
+                {t("saved.allCaughtUp")}
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-center mb-4">
-                No {filter === "unread" ? "unread" : filter} articles to show
+                {t("saved.noArticlesToShow", { filter: t(`saved.${filter}`) })}
               </p>
               <NavLink
                 to="/"
                 className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               >
-                Discover Articles
+                {t("saved.discoverArticles")}
               </NavLink>
             </>
           )}
