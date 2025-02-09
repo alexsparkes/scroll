@@ -1,13 +1,5 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  LuEarth,
-  LuBrain,
-  LuFlaskConical,
-  LuPaintbrush,
-  LuHistory,
-  LuAtom,
-} from "react-icons/lu";
 import { FaWikipediaW } from "react-icons/fa";
 import { useMainPageContent } from "../hooks/useMainPageContent";
 
@@ -16,39 +8,6 @@ export default function Discover() {
   const { featuredArticle, loading } = useMainPageContent();
   const [isExpanded, setIsExpanded] = useState(false);
   const extractThreshold = 150;
-
-  const topics = [
-    {
-      icon: <LuEarth className="w-10 h-10" />,
-      title: t("discover.geography"),
-      gradient: "from-emerald-800/90 via-green-900/80 to-teal-900",
-    },
-    {
-      icon: <LuBrain className="w-10 h-10" />,
-      title: t("discover.psychology"),
-      gradient: "from-purple-800/90 via-purple-900/80 to-indigo-900",
-    },
-    {
-      icon: <LuFlaskConical className="w-10 h-10" />,
-      title: t("discover.science"),
-      gradient: "from-blue-800/90 via-blue-900/80 to-cyan-900",
-    },
-    {
-      icon: <LuPaintbrush className="w-10 h-10" />,
-      title: t("discover.art"),
-      gradient: "from-rose-800/90 via-pink-900/80 to-red-900",
-    },
-    {
-      icon: <LuHistory className="w-10 h-10" />,
-      title: t("discover.history"),
-      gradient: "from-amber-800/90 via-orange-900/80 to-red-900",
-    },
-    {
-      icon: <LuAtom className="w-10 h-10" />,
-      title: t("discover.physics"),
-      gradient: "from-sky-800/90 via-blue-900/80 to-indigo-900",
-    },
-  ];
 
   // Calculate displayed extract
   const displayedExtract =
@@ -107,30 +66,6 @@ export default function Discover() {
               </div>
             </div>
           )}
-        </section>
-
-        {/* Topics Grid */}
-        <section>
-          <h2 className="text-xl font-semibold mb-4">
-            {t("discover.browseTopics")}
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            {topics.map((topic, index) => (
-              <div
-                key={index}
-                className={`bg-gradient-to-br ${topic.gradient} p-6 rounded-xl flex flex-col items-start justify-center gap-3 
-                hover:shadow-lg hover:shadow-emerald-900/20 hover:scale-105 transition-all duration-300 
-                cursor-pointer border border-white/5`}
-              >
-                <div className="p-2 rounded-lg bg-white/10 backdrop-blur-sm">
-                  {topic.icon}
-                </div>
-                <span className="text-2xl font-semibold tracking-wide">
-                  {topic.title}
-                </span>
-              </div>
-            ))}
-          </div>
         </section>
       </div>
     </div>
