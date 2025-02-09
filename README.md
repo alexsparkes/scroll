@@ -4,6 +4,11 @@ _An insanely smooth and engaging scrollable Wikipedia reader._
 
 Scroll is a modern, interactive way to explore Wikipedia articles. Built with React, Vite, and Tailwind CSS, Scroll offers a seamless experience similar to the infinite scrolling content found on popular social platforms.
 
+## Inspiration
+
+[The Tweet](https://x.com/tylerangert/status/1886560290864533983)
+[TikTok](https://www.tiktok.com/foryou)
+
 ## Features
 
 - **Infinite Home Feed** Enjoy a continuous stream of Wikipedia content.
@@ -43,3 +48,5 @@ Experience [Scroll](https://scroll.alexspark.es)
 ## License
 
 ## Credits
+
+Created by [Alex Sparkes](https://alexspark.es). Special thanks to the Wikipedia API for making this project possible.
