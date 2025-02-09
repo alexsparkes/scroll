@@ -76,7 +76,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
     return (
       <div
         key={index}
-        className="h-screen snap-center relative lg:max-w-2xl lg:mx-auto"
+        className="h-screen snap-center relative lg:w-[575px] lg:mx-auto"
       >
         {article.thumbnail && (
           <img

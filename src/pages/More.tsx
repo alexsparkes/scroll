@@ -3,7 +3,7 @@ import { FaGithub, FaBriefcase } from "react-icons/fa";
 
 export default function More() {
   return (
-    <div className="min-h-screen p-4 max-w-md mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent flex flex-col gap-5">
+    <div className="min-h-screen p-4 lg:w-[575px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent flex flex-col gap-5">
       <header>
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10">
           Scroll

@@ -80,7 +80,7 @@ export default function Search({
   };
 
   return (
-    <div className="min-h-screen pb-20 max-w-2xl mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
+    <div className="min-h-screen pb-20 lg:w-[575px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4 sticky top-0 backdrop-blur-lg z-10">
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-5">
           Search

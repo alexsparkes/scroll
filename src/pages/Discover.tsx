@@ -57,7 +57,7 @@ export default function Discover() {
       : featuredArticle?.extract;
 
   return (
-    <div className="min-h-screen bg-black text-white pb-[85px] max-w-2xl mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
+    <div className="min-h-screen bg-black text-white pb-[85px] lg:w-[575px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4">
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-7">
           Discover
