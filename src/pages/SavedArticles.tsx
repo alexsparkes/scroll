@@ -47,10 +47,10 @@ function SavedArticles({
               key={option}
               onClick={() => setFilter(option)}
               type="button"
-              className={`px-6 py-2 rounded-full font-semibold tracking-wide text-sm transition-all duration-200 ${
+              className={`transition-all duration-200 ease-in-out cursor-pointer px-6 py-2 rounded-full font-semibold tracking-wide text-sm ${
                 filter === option
-                  ? "bg-[#341f97] text-white border border-white/30 backdrop-blur-lg"
-                  : "bg-black/30 text-gray-300 border border-white/20 backdrop-blur-sm"
+                  ? "bg-[#341f97] hover:bg-[#351f97ab]  text-white border border-white/30 backdrop-blur-lg"
+                  : "bg-black/30 hover:bg-neutral-800 text-gray-300 border border-white/20 backdrop-blur-sm"
               }`}
             >
               {t(`saved.${option}`)}
@@ -140,7 +140,7 @@ function SavedArticles({
               </p>
               <NavLink
                 to="/"
-                className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="transition-all duration-200 ease-in-out px-6 py-2 bg-[#341F97] cursor-pointer hover:bg-[#351f97ab] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               >
                 {t("saved.discoverArticles")}
               </NavLink>
@@ -155,7 +155,7 @@ function SavedArticles({
               </p>
               <NavLink
                 to="/"
-                className="px-6 py-2 bg-[#341F97] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="transition-all duration-200 ease-in-out px-6 py-2 bg-[#341F97] cursor-pointer hover:bg-[#351f97ab] text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               >
                 {t("saved.discoverArticles")}
               </NavLink>

@@ -110,8 +110,8 @@ export default function Search({
 
         {query ? (
           searchLoading ? (
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="animate-pulse">
                   <div className="h-48 bg-neutral-800 rounded-xl mb-4" />
                   <div className="h-6 bg-neutral-800 rounded w-3/4 mb-2" />

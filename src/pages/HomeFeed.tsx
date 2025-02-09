@@ -205,8 +205,9 @@ function HomeFeed({
           <button
             type="button"
             title="Scroll Up"
+            aria-label="Scroll Up"
             disabled={currentIndex === 0}
-            className={`active:scale-90 group-active:opacity-70 w-12 h-12 bg-neutral-800/50 border border-white/10 text-white flex items-center justify-center rounded-full ${
+            className={`cursor-pointer active:scale-90 group-active:opacity-70 transition-all duration-150 w-12 h-12 bg-neutral-800/50 border border-white/10 text-white flex items-center justify-center rounded-full hover:bg-neutral-700 ${
               currentIndex === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={scrollUp}
@@ -216,7 +217,8 @@ function HomeFeed({
           <button
             type="button"
             title="Scroll Down"
-            className="active:scale-90 group-active:opacity-70 w-12 h-12 bg-neutral-800/50 border border-white/10 text-white flex items-center justify-center rounded-full"
+            aria-label="Scroll Down"
+            className="cursor-pointer active:scale-90 group-active:opacity-70 transition-all duration-150 w-12 h-12 bg-neutral-800/50 border border-white/10 text-white flex items-center justify-center rounded-full hover:bg-neutral-700"
             onClick={scrollDown}
           >
             <FaAngleDown />

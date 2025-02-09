@@ -20,7 +20,7 @@ function NavItem({ to, label, icon }: NavItemProps) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `group flex justify-start flex-row items-center transition-colors gap-5 ${
+        `rounded-lg py-3 pl-3 w-full group flex justify-start flex-row items-center gap-5 hover:bg-neutral-600/40 hover:backdrop-blur-lg transition-all duration-200 ease-in-out ${
           isActive ? "text-white" : "text-neutral-400"
         }`
       }
@@ -40,7 +40,7 @@ export default function BottomNav() {
     <nav className="z-10 fixed top-0 left-0 h-full bg-black justify-center items-center hidden lg:flex">
       <div>
         <h1 className="text-white px-8 text-5xl font-serif py-3">Scroll</h1>
-        <div className="h-full max-w-md mx-auto flex flex-col items-start px-8 py-3 gap-8">
+        <div className="h-full max-w-md mx-auto flex flex-col items-start px-6 py-3 gap-3">
           <NavItem to="/" label={t("nav.home")} icon={<FaHome size={28} />} />
           <NavItem
             to="/discover"

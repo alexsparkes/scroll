@@ -113,7 +113,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
             <button
               type="button"
               title="Save or unsave this article"
-              className="p-3 rounded-full flex flex-col items-center gap-2 group"
+              className="p-3 rounded-lg flex flex-col items-center gap-2 group cursor-pointer hover:bg-neutral-800/40 hover:backdrop-blur-lg transition-all duration-200 ease-in-out"
               onClick={() => handleSaveArticle(article)}
             >
               <FaBookmark
@@ -127,7 +127,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
             <button
               type="button"
               title="Share this article"
-              className="text-white p-3 rounded-full flex flex-col items-center gap-2 group"
+              className="text-white p-3 rounded-lg flex flex-col items-center gap-2 group cursor-pointer hover:bg-neutral-800/40 hover:backdrop-blur-lg transition-all duration-200 ease-in-out"
               onClick={handleShare}
             >
               <FaShare
@@ -139,7 +139,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
             <button
               type="button"
               title="Read this article on Wikipedia"
-              className="text-white p-3 rounded-full flex flex-col items-center gap-2 group"
+              className="text-white p-3 rounded-lg flex flex-col items-center gap-2 group cursor-pointer hover:bg-neutral-800/40 hover:backdrop-blur-lg transition-all duration-200 ease-in-out"
               onClick={handleRead}
             >
               <FaBookOpen
