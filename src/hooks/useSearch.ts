@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
+import { fetchWithLanguageFallback } from '../utils/languageFallback';
 
 export interface SearchResult {
   pageid: number;
   title: string;
   snippet: string;
+  extract?: string;
   description?: string;
   thumbnail?: {
     source: string;
@@ -13,6 +16,7 @@ export interface SearchResult {
 }
 
 export function useSearch(query: string) {
+  const { i18n } = useTranslation();
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
@@ -25,12 +29,9 @@ export function useSearch(query: string) {
       return;
     }
 
-    const debounceHandler = setTimeout(() => {
-      setSearchLoading(true);
-      setSearchError("");
-      
-      fetch(
-        `https://en.wikipedia.org/w/api.php?` +
+    const fetchForLang = async (language: string) => {
+      const response = await fetch(
+        `https://${language}.wikipedia.org/w/api.php?` +
         `action=query&` +
         `generator=search&` +
         `gsrsearch=${encodeURIComponent(query)}&` +
@@ -44,50 +45,51 @@ export function useSearch(query: string) {
         `exlimit=10&` +
         `format=json&` +
         `origin=*`
-      )
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch");
-          return res.json();
-        })
-        .then((data) => {
-          if (data.query?.pages) {
-            const pagesArray = Object.values(data.query.pages) as Array<{
-              pageid: number;
-              title: string;
-              extract: string;
-              description?: string;
-              thumbnail?: {
-                source: string;
-                width: number;
-                height: number;
-              };
-            }>;
+      );
+      const data = await response.json();
+      return data.query?.pages ? Object.values(data.query.pages) : [];
+    };
 
-            const results = pagesArray.map((page) => ({
-              pageid: page.pageid,
-              title: page.title,
-              snippet: page.extract || "",
-              description: page.description,
-              thumbnail: page.thumbnail
-            }));
+    const debounceHandler = setTimeout(async () => {
+      setSearchLoading(true);
+      setSearchError("");
+      
+      try {
+        const lang = i18n.language.split('-')[0];
+        const { result, usedFallback } = await fetchWithLanguageFallback(
+          fetchForLang,
+          lang,
+          (results) => results.length > 0
+        );
 
-            setSearchResults(results);
-          } else {
-            setSearchResults([]);
-          }
-        })
-        .catch((err: Error) => {
-          setSearchError(err.message || "Error occurred");
-        })
-        .finally(() => {
-          setSearchLoading(false);
-        });
+        if (usedFallback) {
+          console.log(`Using English fallback for search results`);
+        }
+
+        const results = (result as SearchResult[]).map((page: SearchResult) => ({
+          pageid: page.pageid,
+          title: page.title,
+          snippet: page.extract || "",
+          description: page.description,
+          thumbnail: page.thumbnail
+        }));
+
+        setSearchResults(results);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setSearchError(err.message);
+        } else {
+          setSearchError("Error occurred");
+        }
+      } finally {
+        setSearchLoading(false);
+      }
     }, 500);
 
     return () => {
       clearTimeout(debounceHandler);
     };
-  }, [query]);
+  }, [query, i18n.language]);
 
   return { searchResults, searchLoading, searchError };
 }

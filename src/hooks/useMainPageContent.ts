@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { fetchWithLanguageFallback } from '../utils/languageFallback';
 
 interface MainPageContent {
   featuredArticle: {
@@ -29,6 +31,7 @@ function cleanWikiText(element: Element | null): string {
 }
 
 export function useMainPageContent() {
+  const { i18n } = useTranslation();
   const [content, setContent] = useState<MainPageContent>({
     featuredArticle: { title: '', extract: '' },
     inTheNews: [],
@@ -39,45 +42,62 @@ export function useMainPageContent() {
   useEffect(() => {
     const fetchMainPage = async () => {
       try {
-        const response = await fetch(
-          'https://en.wikipedia.org/w/api.php?' +
-          new URLSearchParams({
-            action: 'parse',
-            page: 'Main_Page',
-            format: 'json',
-            prop: 'text',
-            origin: '*'
-          })
+        const lang = i18n.language.split('-')[0];
+        
+        const fetchForLang = async (language: string) => {
+          const response = await fetch(
+            `https://${language}.wikipedia.org/w/api.php?` +
+            new URLSearchParams({
+              action: 'parse',
+              page: 'Main_Page',
+              format: 'json',
+              prop: 'text',
+              origin: '*'
+            })
+          );
+          const data = await response.json();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(data.parse.text['*'], 'text/html');
+
+          // Extract Today's Featured Article
+          const featuredArticleElement = doc.querySelector('#mp-tfa');
+          const featuredTitle = featuredArticleElement?.querySelector('p > b > a')?.textContent || '';
+          const featuredImage = featuredArticleElement?.querySelector('img')?.src || '';
+          
+          // Get the first paragraph after removing the image and title
+          const contentElement = featuredArticleElement?.cloneNode(true) as Element;
+          contentElement?.querySelector('.thumbborder')?.parentElement?.remove();
+          const firstParagraph = contentElement?.querySelector('p');
+          const featuredExtract = cleanWikiText(firstParagraph);
+
+          // Extract In The News
+          const newsItems = Array.from(doc.querySelectorAll('#mp-itn ul li')).map(item => ({
+            title: item.querySelector('b')?.textContent || '',
+            extract: cleanWikiText(item)
+          }));
+
+          return {
+            featuredArticle: {
+              title: featuredTitle,
+              extract: featuredExtract,
+              thumbnail: featuredImage ? featuredImage.replace(/^\/\//, 'https://') : undefined
+            },
+            inTheNews: newsItems
+          };
+        };
+
+        const { result, usedFallback } = await fetchWithLanguageFallback(
+          fetchForLang,
+          lang,
+          (result) => result.inTheNews.length > 0 && result.featuredArticle.title !== ''
         );
 
-        const data = await response.json();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.parse.text['*'], 'text/html');
-
-        // Extract Today's Featured Article
-        const featuredArticleElement = doc.querySelector('#mp-tfa');
-        const featuredTitle = featuredArticleElement?.querySelector('p > b > a')?.textContent || '';
-        const featuredImage = featuredArticleElement?.querySelector('img')?.src || '';
-        
-        // Get the first paragraph after removing the image and title
-        const contentElement = featuredArticleElement?.cloneNode(true) as Element;
-        contentElement?.querySelector('.thumbborder')?.parentElement?.remove();
-        const firstParagraph = contentElement?.querySelector('p');
-        const featuredExtract = cleanWikiText(firstParagraph);
-
-        // Extract In The News
-        const newsItems = Array.from(doc.querySelectorAll('#mp-itn ul li')).map(item => ({
-          title: item.querySelector('b')?.textContent || '',
-          extract: cleanWikiText(item)
-        }));
+        if (usedFallback) {
+          console.log(`Using English fallback for main page content`);
+        }
 
         setContent({
-          featuredArticle: {
-            title: featuredTitle,
-            extract: featuredExtract,
-            thumbnail: featuredImage ? featuredImage.replace(/^\/\//, 'https://') : undefined
-          },
-          inTheNews: newsItems,
+          ...result,
           loading: false,
           error: null
         });
@@ -91,7 +111,7 @@ export function useMainPageContent() {
     };
 
     fetchMainPage();
-  }, []);
+  }, [i18n.language]);
 
   return content;
 }

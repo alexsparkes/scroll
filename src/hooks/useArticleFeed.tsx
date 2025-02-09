@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { fetchWithLanguageFallback } from "../utils/languageFallback";
 
 export type Article = {
   title: string;
@@ -17,6 +19,7 @@ const FETCH_TIMEOUT = 3000; // 3 seconds
 const MAX_RETRIES = 3;
 
 export default function useArticleFeed() {
+  const { i18n } = useTranslation();
   const [articles, setArticles] = useState<Article[]>([]);
   const [expandedIndices, setExpandedIndices] = useState<{
     [key: number]: boolean;
@@ -41,19 +44,17 @@ export default function useArticleFeed() {
 
   const fetchArticle = useCallback(
     async (retries = MAX_RETRIES): Promise<Article | null> => {
-      try {
-        // First get the summary
+      const fetchForLang = async (language: string) => {
         const summaryResponse = await fetchWithTimeout(
-          "https://en.wikipedia.org/api/rest_v1/page/random/summary",
+          `https://${language}.wikipedia.org/api/rest_v1/page/random/summary`,
           FETCH_TIMEOUT
         );
         if (!summaryResponse.ok) throw new Error("Failed to fetch summary");
         const summaryData = await summaryResponse.json();
 
-        // Then get the full content
         const titleForUrl = encodeURIComponent(summaryData.title);
         const contentResponse = await fetchWithTimeout(
-          `https://en.wikipedia.org/api/rest_v1/page/html/${titleForUrl}`,
+          `https://${language}.wikipedia.org/api/rest_v1/page/html/${titleForUrl}`,
           FETCH_TIMEOUT
         );
         if (!contentResponse.ok) throw new Error("Failed to fetch content");
@@ -65,6 +66,21 @@ export default function useArticleFeed() {
           content: contentText,
           thumbnail: summaryData.thumbnail,
         };
+      };
+
+      try {
+        const lang = i18n.language.split("-")[0];
+        const { result, usedFallback } = await fetchWithLanguageFallback(
+          fetchForLang,
+          lang,
+          (result) => result.extract.length > 0 && result.title.length > 0
+        );
+
+        if (usedFallback) {
+          console.log(`Using English fallback for article`);
+        }
+
+        return result;
       } catch (error) {
         if (retries > 0) {
           return fetchArticle(retries - 1);
@@ -73,7 +89,7 @@ export default function useArticleFeed() {
         return null;
       }
     },
-    [fetchWithTimeout]
+    [fetchWithTimeout, i18n.language]
   );
 
   const prefetchArticles = useCallback(async () => {
@@ -136,7 +152,7 @@ export default function useArticleFeed() {
     if (articles.length === 0 && !isFetching) {
       fetchInitialArticle();
     }
-  }, []); // Empty dependency array for mount only
+  }, [articles.length, fetchInitialArticle, isFetching]); // Include dependencies
 
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
