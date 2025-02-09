@@ -32,7 +32,7 @@ function SavedArticles({
 
   return (
     <div
-      className="h-screen overflow-y-scroll pb-20 lg:w-[575px] lg:mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent"
+      className="lg:ml-[200px] h-screen overflow-y-scroll pb-20 lg:mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent"
       onScroll={handleScroll}
     >
       <div className="flex justify-between items-start p-4 flex-col gap-4 ">
@@ -116,7 +116,7 @@ function SavedArticles({
           )}
         </div>
       ) : (
-        <div className="pt-[50%] flex flex-col items-center justify-center p-8">
+        <div className="pt-10 flex flex-col items-center justify-center p-8">
           <div className="w-16 h-16 mb-4">
             <FaBookmark className="w-full h-full text-gray-400" />
           </div>

@@ -57,14 +57,14 @@ export default function Discover() {
       : featuredArticle?.extract;
 
   return (
-    <div className="min-h-screen bg-black text-white pb-[85px] lg:w-[575px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
+    <div className="lg:ml-[200px] min-h-screen bg-black text-white pb-[85px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4">
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-7">
           Discover
         </h1>
 
         {/* Featured Article Section */}
-        <section className="mb-8">
+        <section className="mb-8 lg:w-[575px]">
           {loading ? (
             <div className="">
               <div className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-transparent shadow-md">
@@ -80,7 +80,7 @@ export default function Discover() {
             </div>
           ) : (
             <div
-              className="relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md 
+              className="lg:w-[575px] relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md 
                 hover:shadow-lg transition transform hover:scale-105 cursor-pointer"
             >
               <div className="absolute top-3 right-3">

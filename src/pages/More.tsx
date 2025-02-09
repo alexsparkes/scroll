@@ -3,7 +3,7 @@ import { FaGithub, FaBriefcase } from "react-icons/fa";
 
 export default function More() {
   return (
-    <div className="min-h-screen p-4 lg:w-[575px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent flex flex-col gap-5">
+    <div className="min-h-screen p-4 lg:ml-[200px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent flex flex-col gap-5">
       <header>
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10">
           Scroll
@@ -11,7 +11,7 @@ export default function More() {
         <p className="text-neutral-400">v{version} • Created by Alex Sparkes</p>
       </header>
 
-      <section className="">
+      <section className="lg:w-[575px]">
         <div className="bg-neutral-900 rounded-lg p-6">
           <p className="text-neutral-400">A Tiktok style wikipedia reader.</p>
         </div>
@@ -24,7 +24,7 @@ export default function More() {
             href="https://github.com/alexsparkes/wiki-flick"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
+            className="lg:w-[575px] flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
           >
             <FaGithub className="text-neutral-300" />
             GitHub Repository
@@ -33,7 +33,7 @@ export default function More() {
             href="https://github.com/alexsparkes/wiki-flick"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
+            className="lg:w-[575px] flex flex-row items-center gap-5 cursor-pointer transition-all duration-300 ease-in-out bg-neutral-950 hover:bg-neutral-900 p-4 rounded-lg text-white"
           >
             <FaBriefcase className="text-neutral-300" />
             Portfolio

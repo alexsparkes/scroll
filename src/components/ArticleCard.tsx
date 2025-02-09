@@ -22,7 +22,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md hover:shadow-lg transition transform hover:scale-105 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+      className={`relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md hover:shadow-lg transition transform hover:scale-105 lg:hover:scale-100 lg:hover:bg-neutral-700 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
         className || ""
       }`}
     >

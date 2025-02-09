@@ -80,8 +80,8 @@ export default function Search({
   };
 
   return (
-    <div className="min-h-screen pb-20 lg:w-[575px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
-      <div className="p-4 sticky top-0 backdrop-blur-lg z-10">
+    <div className="min-h-screen pb-20 lg:ml-[200px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
+      <div className="p-4 sticky top-0 backdrop-blur-lg z-10 lg:w-[575px]">
         <h1 className="text-5xl font-serif font-bold text-white flex flex-col pt-10 pb-5">
           Search
         </h1>
@@ -118,55 +118,57 @@ export default function Search({
               ))}
             </div>
           ) : searchResults.length > 0 ? (
-            <div className="grid gap-4">
-              <div className="text-neutral-400 font-semibold">
+            <>
+              <div className="text-neutral-400 font-semibold mb-2">
                 {searchResults.length} result
                 {searchResults.length === 1 ? "" : "s"} found
               </div>
-              {searchResults.map((result) => (
-                <ArticleCard
-                  key={result.pageid}
-                  title={result.title}
-                  snippet={result.description || result.snippet}
-                  thumbnail={result.thumbnail}
-                  onClick={() =>
-                    window.open(
-                      `https://en.wikipedia.org/wiki/${encodeURIComponent(
-                        result.title
-                      )}`,
-                      "_blank"
-                    )
-                  }
-                  actions={
-                    <button
-                      type="button"
-                      title={
-                        isArticleSaved(result.title)
-                          ? "Remove from saved"
-                          : "Save article"
-                      }
-                      aria-label={`${
-                        isArticleSaved(result.title) ? "Remove" : "Save"
-                      } article "${result.title}"`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSaveArticle(searchResultToArticle(result));
-                      }}
-                      className="absolute top-2 right-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                    >
-                      <FaBookmark
-                        size={20}
-                        className={
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {searchResults.map((result) => (
+                  <ArticleCard
+                    key={result.pageid}
+                    title={result.title}
+                    snippet={result.description || result.snippet}
+                    thumbnail={result.thumbnail}
+                    onClick={() =>
+                      window.open(
+                        `https://en.wikipedia.org/wiki/${encodeURIComponent(
+                          result.title
+                        )}`,
+                        "_blank"
+                      )
+                    }
+                    actions={
+                      <button
+                        type="button"
+                        title={
                           isArticleSaved(result.title)
-                            ? "text-yellow-500"
-                            : "text-white"
+                            ? "Remove from saved"
+                            : "Save article"
                         }
-                      />
-                    </button>
-                  }
-                />
-              ))}
-            </div>
+                        aria-label={`${
+                          isArticleSaved(result.title) ? "Remove" : "Save"
+                        } article "${result.title}"`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSaveArticle(searchResultToArticle(result));
+                        }}
+                        className="absolute top-2 right-2 p-1 bg-black bg-opacity-50 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                      >
+                        <FaBookmark
+                          size={20}
+                          className={
+                            isArticleSaved(result.title)
+                              ? "text-yellow-500"
+                              : "text-white"
+                          }
+                        />
+                      </button>
+                    }
+                  />
+                ))}
+              </div>
+            </>
           ) : (
             <div className="text-center p-8 text-neutral-400">
               No results found
@@ -174,7 +176,7 @@ export default function Search({
           )
         ) : (
           // Show trending articles when no search query
-          <section className="mt-4">
+          <section className="mt-4 lg:w-[575px]">
             <h2 className="text-2xl font-semibold text-white mb-4">
               Trending Articles
             </h2>
