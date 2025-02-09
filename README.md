@@ -47,6 +47,8 @@ Experience [Scroll](https://scroll.alexspark.es)
 
 ## License
 
+This project is licensed under the MIT License. See the LICENSE file for details.
+
 ## Credits
 
 Created by [Alex Sparkes](https://alexspark.es). Special thanks to the Wikipedia API for making this project possible.
