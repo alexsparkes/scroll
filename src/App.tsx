@@ -9,6 +9,7 @@ import { TopicProvider } from "./context/TopicContext";
 import Discover from "./pages/Discover";
 import More from "./pages/More";
 import Search from "./pages/Search";
+import SideNavbar from "./components/SideNavbar";
 
 function HomeFeedContainer() {
   const {
@@ -71,6 +72,7 @@ function App() {
       <TopicProvider>
         <BrowserRouter>
           <div className="relative min-h-screen">
+            <SideNavbar />
             <Routes>
               <Route
                 path="/"

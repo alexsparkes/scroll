@@ -79,10 +79,10 @@ function HomeFeed({
 
   if (isLoading || articles.length === 0) {
     return (
-      <div className="h-screen max-w-2xl bg-black pb-[175px] mx-auto">
+      <div className="h-screen lg:w-[575px] bg-black pb-[175px] mx-auto">
         <div className="h-screen relative animate-pulse">
           <div className="absolute inset-0 bg-neutral-900" />
-          <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
+          <div className="absolute left-0 lg:bottom-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
             <div className="flex-grow p-4 flex flex-col justify-end">
               <div className="h-6 w-2/3 bg-gray-700 rounded mb-4" />
               <div className="flex flex-col gap-2">

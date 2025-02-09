@@ -85,7 +85,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
             alt={article.title}
           />
         )}
-        <div className="absolute left-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
+        <div className="absolute left-0 bottom-[75px] lg:bottom-0 pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
           <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
             <span className="px-2 py-1 bg-neutral-800/20 text-white border border-white/30 backdrop-blur-lg rounded-full text-xs font-semibold mb-2">
               {readingTime === 0.5 ? "30 sec" : `${readingTime} min`} read
