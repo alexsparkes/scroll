@@ -33,6 +33,7 @@ function HomeFeed({
   const touchStartX = useRef<number | null>(null);
   const currentArticleIndex = useRef<number>(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollingRef = useRef(false);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -82,31 +83,37 @@ function HomeFeed({
 
   // Function to scroll up to the previous article
   const scrollUp = () => {
-    if (parentRef.current) {
-      const newIndex = Math.max(currentArticleIndex.current - 1, 0);
-      parentRef.current.scrollTo({
-        top: newIndex * window.innerHeight,
-        behavior: "smooth",
-      });
-      currentArticleIndex.current = newIndex;
-      setCurrentIndex(newIndex);
-    }
+    if (scrollingRef.current || !parentRef.current) return;
+    const newIndex = Math.max(currentArticleIndex.current - 1, 0);
+    parentRef.current.scrollTo({
+      top: newIndex * window.innerHeight,
+      behavior: "smooth",
+    });
+    currentArticleIndex.current = newIndex;
+    setCurrentIndex(newIndex);
+    scrollingRef.current = true;
+    setTimeout(() => {
+      scrollingRef.current = false;
+    }, 600); // adjust timeout based on scroll animation duration
   };
 
   // Function to scroll down to the next article
   const scrollDown = () => {
-    if (parentRef.current) {
-      const newIndex = Math.min(
-        currentArticleIndex.current + 1,
-        articles.length - 1
-      );
-      parentRef.current.scrollTo({
-        top: newIndex * window.innerHeight,
-        behavior: "smooth",
-      });
-      currentArticleIndex.current = newIndex;
-      setCurrentIndex(newIndex);
-    }
+    if (scrollingRef.current || !parentRef.current) return;
+    const newIndex = Math.min(
+      currentArticleIndex.current + 1,
+      articles.length - 1
+    );
+    parentRef.current.scrollTo({
+      top: newIndex * window.innerHeight,
+      behavior: "smooth",
+    });
+    currentArticleIndex.current = newIndex;
+    setCurrentIndex(newIndex);
+    scrollingRef.current = true;
+    setTimeout(() => {
+      scrollingRef.current = false;
+    }, 600); // adjust timeout based on scroll animation duration
   };
 
   if (isLoading || articles.length === 0) {
