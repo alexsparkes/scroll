@@ -50,7 +50,10 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
     );
 
     const getWikipediaUrl = (isMobile: boolean) => {
-      const lang = i18n.language || "en";
+      let lang = "en";
+      if (i18n.language === "es") {
+        lang = "es";
+      }
       return isMobile
         ? `https://${lang}.m.wikipedia.org/wiki/`
         : `https://${lang}.wikipedia.org/wiki/`;
