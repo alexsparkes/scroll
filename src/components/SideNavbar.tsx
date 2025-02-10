@@ -40,7 +40,7 @@ export default function BottomNav() {
     <nav className="z-10 fixed top-0 left-0 h-full bg-black justify-center items-center hidden lg:flex">
       <div>
         <h1 className="text-white px-8 text-5xl font-serif py-3">Scroll</h1>
-        <div className="h-full max-w-md mx-auto flex flex-col items-start px-6 py-3 gap-3">
+        <div className="h-full max-w-md mx-auto flex flex-col items-start px-6 py-3 gap-2">
           <NavItem to="/" label={t("nav.home")} icon={<FaHome size={28} />} />
           <NavItem
             to="/discover"
@@ -62,6 +62,29 @@ export default function BottomNav() {
             label={t("nav.more")}
             icon={<FaEllipsisH size={28} />}
           />
+          <a
+            href="https://www.producthunt.com/posts/scroll-3?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-scroll&#0045;3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-3"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=864320&theme=dark&t=1739202027209"
+              alt="Scroll - Scroll Through Knowledge, TikTok Style. | Product Hunt"
+              style={{ width: "200px", height: "43.2px" }}
+              width="200"
+              height="43.2"
+            />
+          </a>
+          <span className="px-2 text-neutral-200 text-xs">
+            © 2025 Alex Sparkes
+          </span>
+          <span className="px-2 text-neutral-200 text-xs max-w-[200px]">
+            {t("more.wikipediaNotice", {
+              defaultValue:
+                "This product uses data from Wikipedia and is available under a Creative Commons Attribution-ShareAlike License. © Wikimedia Foundation. Additional terms may apply.",
+            })}
+          </span>
         </div>
       </div>
     </nav>
