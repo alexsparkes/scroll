@@ -20,7 +20,7 @@ export default {
   },
   more: {
     created: 'Created by',
-    description: 'A Tiktok style wikipedia reader.',
+    description: 'Scroll reinvents Wikipedia discovery with an endless, TikTok-inspired feed. Swipe to uncover the world’s knowledge, one scroll at a time.',
     links: 'Links',
     repository: 'GitHub Repository',
     portfolio: 'Portfolio',
