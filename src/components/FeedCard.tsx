@@ -82,7 +82,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
       >
         {article.thumbnail && (
           <img
-            className="h-[90vh] w-screen object-cover"
+            className="h-[90vh] lg:h-[100vh] w-screen object-cover"
             src={article.thumbnail.source}
             alt={article.title}
           />
