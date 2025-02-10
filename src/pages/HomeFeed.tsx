@@ -118,7 +118,7 @@ function HomeFeed({
 
   if (isLoading || articles.length === 0) {
     return (
-      <div className="h-screen lg:w-[575px] bg-black pb-[175px] mx-auto">
+      <div className="h-screen lg:w-[575px] bg-black pb-[175px] mx-auto lg:border-box lg:border lg:border-solid lg:border-neutral-700 lg:rounded-xl">
         <div className="h-screen relative animate-pulse">
           <div className="absolute inset-0 bg-neutral-900" />
           <div className="absolute left-0 lg:bottom-0 bottom-[75px] pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">

@@ -84,16 +84,16 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
     return (
       <div
         key={index}
-        className="h-screen snap-center relative lg:w-[575px] lg:mx-auto"
+        className="h-screen box-border snap-center relative lg:w-[575px] lg:mx-auto lg:border-box lg:border lg:border-solid lg:border-neutral-700 lg:rounded-xl"
       >
         {article.thumbnail && (
           <img
-            className="h-[90vh] lg:h-[100vh] w-screen object-cover"
+            className="h-[90vh] lg:h-[100vh] w-screen object-cover rounded-xl"
             src={article.thumbnail.source}
             alt={article.title}
           />
         )}
-        <div className="absolute left-0 bottom-[75px] lg:bottom-0 pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
+        <div className="rounded-xl absolute left-0 bottom-[75px] lg:bottom-0 pb-[100px] w-full flex flex-row bg-gradient-to-t from-black via-black/90 to-transparent">
           <div className="flex-grow p-4 text-white flex flex-col justify-end items-start">
             <span className="px-2 py-1 bg-neutral-800/20 text-white border border-white/30 backdrop-blur-lg rounded-full text-xs font-semibold mb-2">
               {readingTime === 0.5
