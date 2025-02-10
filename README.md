@@ -1,8 +1,10 @@
-# Scroll
+![desktop-banner](https://github.com/user-attachments/assets/f8d181ce-f220-4665-b9f6-8913f78ae8ba)
 
-_An insanely smooth and engaging scrollable Wikipedia reader._
+<h1 align="center">Scroll</h1>
 
-Scroll is a modern, interactive way to explore Wikipedia articles. Built with React, Vite, and Tailwind CSS, Scroll offers a seamless experience similar to the infinite scrolling content found on popular social platforms.
+<p align="center">Scroll reinvents Wikipedia discovery with an endless, TikTok-inspired feed. Swipe to uncover the world’s knowledge, one scroll at a time.</p>
+
+<a href="https://www.producthunt.com/posts/scroll-3?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-scroll&#0045;3" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=864320&theme=light&t=1739214702904" alt="Scroll - Scroll&#0032;Through&#0032;Knowledge&#0044;&#0032;TikTok&#0032;Style&#0046; | Product Hunt" style="width: 250px; height: 54px; margin: 0 auto;" width="250" height="54" /></a>
 
 ## Inspiration
 
