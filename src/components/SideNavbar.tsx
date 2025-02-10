@@ -5,6 +5,7 @@ import {
   FaCompass,
   FaSearch,
   FaEllipsisH,
+  FaGithub,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import React from "react";
@@ -77,13 +78,41 @@ export default function BottomNav() {
             />
           </a>
           <span className="px-2 text-neutral-200 text-xs">
-            © 2025 Alex Sparkes
+            © 2025{" "}
+            <a
+              href="https://alexspark.es"
+              className="text-neutral-200 hover:text-white hover:underline transition-colors duration-200 active:opacity-80"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Alex Sparkes
+            </a>
           </span>
           <span className="px-2 text-neutral-200 text-xs max-w-[200px]">
             {t("more.wikipediaNotice", {
               defaultValue:
                 "This product uses data from Wikipedia and is available under a Creative Commons Attribution-ShareAlike License. © Wikimedia Foundation. Additional terms may apply.",
             })}
+          </span>
+          <span className="flex flex-row gap-2 px-2 text-neutral-200 text-xs">
+            <a
+              href="https://github.com/alexsparkes/scroll"
+              className="flex flex-row items-center text-neutral-200 hover:text-white hover:underline transition-colors duration-200 active:opacity-80 gap-1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub size={12} />
+              GitHub
+            </a>
+            <span>•</span>
+            <a
+              href="https://github.com/alexsparkes/scroll/blob/main/LICENSE"
+              className="flex flex-row items-center text-neutral-200 hover:text-white hover:underline transition-colors duration-200 active:opacity-80"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              MIT License
+            </a>
           </span>
         </div>
       </div>
