@@ -7,7 +7,7 @@ export default function More() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen p-4 lg:ml-[200px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent flex flex-col gap-5">
+    <div className="min-h-screen p-4 lg:ml-[250px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent flex flex-col gap-5">
       <header>
         <h1 className="text-5xl font-serif font-semibold text-white flex flex-col pt-10">
           Scroll

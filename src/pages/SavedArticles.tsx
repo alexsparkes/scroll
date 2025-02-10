@@ -34,7 +34,7 @@ function SavedArticles({
 
   return (
     <div
-      className="lg:ml-[200px] h-screen overflow-y-scroll pb-20 lg:mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent"
+      className="lg:ml-[250px] h-screen overflow-y-scroll pb-20 lg:mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent"
       onScroll={handleScroll}
     >
       <div className="flex justify-between items-start p-4 flex-col gap-4 ">

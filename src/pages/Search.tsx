@@ -82,7 +82,7 @@ export default function Search({
   };
 
   return (
-    <div className="min-h-screen pb-20 lg:ml-[200px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
+    <div className="min-h-screen pb-20 lg:ml-[250px] mx-auto bg-gradient-to-b from-[#341F97]/25 to-transparent">
       <div className="p-4 sticky top-0 backdrop-blur-lg z-10 lg:w-[575px]">
         <h1 className="text-5xl font-serif font-semibold text-white flex flex-col pt-10 pb-5">
           {t("search.title")}
