@@ -29,10 +29,7 @@ export default function Discover() {
           {loading ? (
             <div className="text-center">{t("discover.loading")}</div>
           ) : (
-            <div
-              className="lg:w-[575px] relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md 
-                hover:shadow-lg transition transform hover:scale-105 cursor-pointer"
-            >
+            <div className="lg:w-[575px] relative bg-neutral-800/50 backdrop-blur-lg rounded-xl border border-white/10 shadow-md hover:shadow-lg transition transform hover:scale-105 lg:hover:scale-100 lg:hover:bg-neutral-700 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
               <div className="absolute top-3 right-3">
                 <div className="rounded-lg px-5 py-2 bg-neutral-900/70 backdrop-blur-lg text-white text-xs font-bold flex flex-row gap-2 items-center">
                   <FaWikipediaW />

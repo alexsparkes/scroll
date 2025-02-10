@@ -20,7 +20,7 @@ function NavItem({ to, label, icon }: NavItemProps) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `rounded-lg py-3 pl-3 w-full group flex justify-start flex-row items-center gap-5 hover:bg-neutral-600/40 hover:backdrop-blur-lg transition-all duration-200 ease-in-out ${
+        `rounded-lg py-3 pl-3 w-full group flex justify-start flex-row items-center gap-5 hover:bg-neutral-600/40 hover:backdrop-blur-lg transition-all duration-400 ease-in-out ${
           isActive ? "text-white" : "text-neutral-400"
         }`
       }
