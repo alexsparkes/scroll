@@ -23,7 +23,7 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
     isArticleSaved,
     handleSaveArticle,
   }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const isShort = article.extract.length <= extractThreshold;
     const displayedExtract = isExpanded
       ? article.extract
@@ -49,12 +49,19 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
       article.content || article.extract
     );
 
+    const getWikipediaUrl = (isMobile: boolean) => {
+      const lang = i18n.language || "en";
+      return isMobile
+        ? `https://${lang}.m.wikipedia.org/wiki/`
+        : `https://${lang}.wikipedia.org/wiki/`;
+    };
+
     const handleShare = () => {
+      const baseUrl = getWikipediaUrl(window.innerWidth < 768);
       const shareData = {
         title: article.title,
         text: "Check out this article!",
-        url:
-          "https://en.wikipedia.org/wiki/" + encodeURIComponent(article.title),
+        url: baseUrl + encodeURIComponent(article.title),
       };
 
       if (navigator.share) {
@@ -70,9 +77,8 @@ const FeedCard: React.FC<ArticleFeedCardProps> = React.memo(
     };
 
     const handleRead = () => {
-      // Open in same window instead of new tab
-      window.location.href =
-        "https://en.wikipedia.org/wiki/" + encodeURIComponent(article.title);
+      const baseUrl = getWikipediaUrl(window.innerWidth < 768);
+      window.location.href = baseUrl + encodeURIComponent(article.title);
     };
 
     return (
